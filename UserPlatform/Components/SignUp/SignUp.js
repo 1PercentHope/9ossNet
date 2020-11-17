@@ -68,6 +68,8 @@ export default class SignUn extends Component {
                     />
                     <Button
                         title="Sign Up"
+                        onPress={() =>
+                            this.props.navigation.navigate('User')}
                     />
                 </Card>
             </View>
