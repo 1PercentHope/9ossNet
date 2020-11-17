@@ -1,24 +1,12 @@
+
 import React, { Component } from "react";
 import { Text, View, Image, StyleSheet, Picker } from "react-native";
-import { Button, Card, ListItem, Icon } from "react-native-elements";
-import events from "../../dummy data/events.js";
+import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 
-// const styles = StyleSheet.create({
-//   eventFrame: {
-//     resizeMode: "cover",
-//     height: 100,
-//     width: 200,
-//   },
-//   eventDiv: {
-//     backgroundColor: "black",
-//     alignItems: "center",
-//   },
-//   innerText: {
-//     color: "white",
-//     fontWeight: "bold",
-//     fontFamily: "Times New Roman",
-//   },
-// });
+import events from "../../dummy data/events.js";
+import SignIn from '../SignIn/SignIn';
+
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -29,20 +17,38 @@ export default class Home extends Component {
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.pikerHandler = this.pikerHandler.bind(this);
+    this.filterByPlace = this.filterByPlace.bind(this);
+    this.pikerHandler2 = this.pikerHandler2.bind(this);
+   
   }
-
+  
   pikerHandler(item, index) {
     console.log(item);
     switch (item) {
       case "8000":
-        this.filterByCategory("champions league");
+        this.filterByCategory("league 1");
 
         break;
       case "7000":
-        this.filterByCategory("international");
+        this.filterByCategory("cup");
         break;
       default:
         this.filterByCategory("all");
+    }
+  }
+  pikerHandler2(item1, index) {
+    console.log(item1);
+    switch (item1) {
+      case "a":
+        this.filterByPlace("stade Tayeb Mhiri");
+
+        break;
+      case "b":
+        this.filterByPlace("stade Rades");
+        break;
+
+      default:
+        this.filterByPlace("all");
     }
   }
 
@@ -56,36 +62,71 @@ export default class Home extends Component {
       this.setState({ filterevents: eventsFiltredByCategoryI });
     }
   }
+  filterByPlace(place) {
+    if (place === "all") {
+      this.setState({ filterevents: events });
+    } else {
+      const eventsFiltredByPlace = this.state.events.filter(
+        (event) => event.place === place
+      );
+      this.setState({ filterevents: eventsFiltredByPlace });
+    }
+  }
 
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View  key={key} className="eventDiv">
+      <View key={key} className="eventDiv">
         <Card>
-          <Card.Title>League 1</Card.Title>
+          <Card.Title>{event.category}</Card.Title>
           <Card.Divider />
-          <Card.Image source={{uri: event.image}} />
-          <Text>{event.homeTeam} VS {event.awayTeam}</Text>
+          <Card.Image source={{ uri: event.image }} />
+          <Text>
+            {event.homeTeam} VS {event.awayTeam}
+          </Text>
           <Text>{event.place}</Text>
           <Text>{event.date}</Text>
           <Text>{event.description}</Text>
           <Text>{event.category}</Text>
           <Text>{event.price}</Text>
           <Button
-            icon={<Icon name='ionicon' color='#ffffff' />}
-            buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-            title='GET TICKET' />
+            icon={<Icon color="#ffffff" />}
+            buttonStyle={{
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0,
+            }}
+            title="GET TICKET"
+          />
         </Card>
       </View>
     ));
     return (
       <View>
+        <Header
+          leftComponent={<Button title='Home'
+          ></Button>}
+          centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
+          rightComponent={<Button title='login'
+          onPress={() =>
+            this.props.navigation.navigate('SignIn')
+          }
+         ></Button>}
+        ></Header>
         <Picker onValueChange={this.pikerHandler}>
-          <Picker.Item label="All Category" value="0"></Picker.Item>
-          <Picker.Item label="champions league" value="8000"></Picker.Item>
-          <Picker.Item label="international" value="7000"></Picker.Item>
+          <Picker.Item label="All Categories" value="0"></Picker.Item>
+          <Picker.Item label="League 1" value="8000"></Picker.Item>
+          <Picker.Item label="Cup" value="7000"></Picker.Item>
+        </Picker>
+        <Picker onValueChange={this.pikerHandler2}>
+          <Picker.Item label="All stadiums" value="0"></Picker.Item>
+          <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
+          <Picker.Item label="stade Rades" value="b"></Picker.Item>
         </Picker>
         {eventsD}
+        
       </View>
+      
     );
   }
 }
