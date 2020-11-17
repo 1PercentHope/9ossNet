@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import Profile from '../Profile/Profile.js';
+import Events from '../Events/Events.js'
 
 
 
@@ -22,6 +23,7 @@ export default class User extends Component {
         return (
             <View>
                 <Profile />
+                <Events />
             </View>
         )
     }
