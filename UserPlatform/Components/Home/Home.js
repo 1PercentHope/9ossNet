@@ -108,6 +108,9 @@ export default class Home extends Component {
           ></Button>}
           centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
           rightComponent={<Button title='login'
+          onPress={() =>
+            this.props.navigation.navigate('SignIn')
+          }
          ></Button>}
         ></Header>
         <Picker onValueChange={this.pikerHandler}>

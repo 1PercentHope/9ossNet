@@ -38,8 +38,11 @@ export default class SignIn extends Component {
                     />
                     <Button
                         title="Log in"
+                        onPress={() =>
+                            this.props.navigation.navigate('User')}
                     />
-                    <Text>Or sign up with us</Text>
+                    <Text onPress={() =>
+            this.props.navigation.navigate('SignUp')}>Or sign up with us</Text>
                 </Card>
             </View>
         )
