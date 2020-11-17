@@ -32,17 +32,8 @@ export default class Profile extends Component {
         return (
             <View>
                 <View>
-                    <Header
-                        centerComponent={{ text: '9ossNet', style: { color: '#fff' } }}
-                        rightComponent={{ icon: 'menu', color: '#fff' }}
-                    >
-                        <Button onPress={() => { this.showProfile() }}>
-                            <Icon name='user'
-                                size={24}
-                                color='White' /></Button>
-                    </Header>
-
-                    {this.state.hist && this.state.slide && <View><Avatar title={user.firstName} />
+                    <Avatar onPress={() => { this.showProfile() }} size="large" rounded source={{uri:'https://www.aero-mag.com/wp-content/uploads/2019/07/AMJuly19News-ametek1-e1563205327354-1024x1024.jpg'}} />
+                    {this.state.hist && this.state.slide && <View>
                         <ListItem bottomDivider>
                             <ListItem.Content>
                                 <ListItem.Title>{user.firstName}</ListItem.Title>
@@ -65,8 +56,8 @@ export default class Profile extends Component {
                             </ListItem.Content>
                             <ListItem.Chevron />
                         </ListItem></View>}
-                </View> 
-                {!this.state.hist && <History/>}
+                </View>
+                {!this.state.hist && <History />}
 
             </View>
         )
