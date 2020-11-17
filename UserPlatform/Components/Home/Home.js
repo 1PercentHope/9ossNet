@@ -1,24 +1,24 @@
 import React, { Component } from "react";
 import { Text, View, Image, StyleSheet, Picker } from "react-native";
-import { Button, ThemeProvider } from "react-native-elements";
+import { Button, Card, ListItem, Icon } from "react-native-elements";
 import events from "../../dummy data/events.js";
 
-const styles = StyleSheet.create({
-  eventFrame: {
-    resizeMode: "cover",
-    height: 100,
-    width: 200,
-  },
-  eventDiv: {
-    backgroundColor: "black",
-    alignItems: "center",
-  },
-  innerText: {
-    color: "white",
-    fontWeight: "bold",
-    fontFamily: "Times New Roman",
-  },
-});
+// const styles = StyleSheet.create({
+//   eventFrame: {
+//     resizeMode: "cover",
+//     height: 100,
+//     width: 200,
+//   },
+//   eventDiv: {
+//     backgroundColor: "black",
+//     alignItems: "center",
+//   },
+//   innerText: {
+//     color: "white",
+//     fontWeight: "bold",
+//     fontFamily: "Times New Roman",
+//   },
+// });
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ export default class Home extends Component {
     switch (item) {
       case "8000":
         this.filterByCategory("champions league");
-        
+
         break;
       case "7000":
         this.filterByCategory("international");
@@ -59,20 +59,22 @@ export default class Home extends Component {
 
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View style={styles.eventDiv} key={key} className="eventDiv">
-        <Image style={styles.eventFrame} source={event.image} />
-        <View>
-          <Text style={styles.innerText}>
-            {event.homeTeam} VS {event.awayTeam}
-          </Text>
-          <Text style={styles.innerText}>{event.place}</Text>
-          <Text style={styles.innerText}>{event.date}</Text>
-          <Text style={styles.innerText}>{event.description}</Text>
-          <Text style={styles.innerText}>{event.category}</Text>
-          <Text style={styles.innerText}>{event.price}</Text>
-          <Button title="9oss"></Button>
-        </View>
-        {console.log(event.image)}
+      <View  key={key} className="eventDiv">
+        <Card>
+          <Card.Title>League 1</Card.Title>
+          <Card.Divider />
+          <Card.Image source={{uri: event.image}} />
+          <Text>{event.homeTeam} VS {event.awayTeam}</Text>
+          <Text>{event.place}</Text>
+          <Text>{event.date}</Text>
+          <Text>{event.description}</Text>
+          <Text>{event.category}</Text>
+          <Text>{event.price}</Text>
+          <Button
+            icon={<Icon name='ionicon' color='#ffffff' />}
+            buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+            title='GET TICKET' />
+        </Card>
       </View>
     ));
     return (
@@ -82,7 +84,6 @@ export default class Home extends Component {
           <Picker.Item label="champions league" value="8000"></Picker.Item>
           <Picker.Item label="international" value="7000"></Picker.Item>
         </Picker>
-
         {eventsD}
       </View>
     );
