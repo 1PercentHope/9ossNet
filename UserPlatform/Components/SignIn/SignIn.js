@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View,Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Card, Button } from 'react-native-elements';
 
@@ -37,8 +37,9 @@ export default class SignIn extends Component {
                         }
                     />
                     <Button
-                        title="Sign In"
+                        title="Log in"
                     />
+                    <Text>Or sign up with us</Text>
                 </Card>
             </View>
         )
