@@ -9,7 +9,7 @@ import User from './components/User/User.js';
 export default function App() {
   return (
     <View>
-      <SignIn />
+      < Home />
     </View>
   );
 }
