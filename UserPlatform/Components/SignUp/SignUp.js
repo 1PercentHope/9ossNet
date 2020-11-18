@@ -8,8 +8,26 @@ import { Input, Card, Button } from 'react-native-elements';
 export default class SignUn extends Component {
     constructor(props) {
         super(props);
-    }
+        this.state={
+            data:[{email:'ali@rbk.com',Phonenumber:'22029477'}],
+            Phone:'',
+            email:'',
+            firstName:'',
+            lastName:'',
+            password:'',
 
+
+        };
+
+        this.onSignUp=this.onSignUp.bind(this);
+    }
+    onSignUp(){
+       if(this.state.Phone === this.state.data[0].Phonenumber||this.state.email===this.state.data[0].email){
+           console.log('already exisisting')
+       } else{
+          console.log('Welcome new user') 
+        this.props.navigation.navigate('User') }
+    }
     render() {
 
 
@@ -38,6 +56,7 @@ export default class SignUn extends Component {
                     />
                     <Input
                         placeholder='Phone number'
+                        
                         leftIcon={
                             <Icon
                                 name='phone'
@@ -45,6 +64,7 @@ export default class SignUn extends Component {
                                 color='black'
                             />
                         }
+                        onChange={(e)=>{this.setState({Phone:e.target.value})}}
                     />
                     <Input
                         placeholder='Password'
@@ -58,6 +78,7 @@ export default class SignUn extends Component {
                     />
                     <Input
                         placeholder='Email'
+                        
                         leftIcon={
                             <Icon
                                 name='info'
@@ -65,11 +86,11 @@ export default class SignUn extends Component {
                                 color='black'
                             />
                         }
+                        onChange={(e)=>{this.setState({email:e.target.value})}}
                     />
                     <Button
                         title="Sign Up"
-                        onPress={() =>
-                            this.props.navigation.navigate('User')}
+                        onPress={this.onSignUp}
                     />
                 </Card>
             </View>
