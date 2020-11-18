@@ -18,9 +18,12 @@ export default class Home extends Component {
       <View>
         <Header
           leftComponent={<Button title='Home'
+          onPress={() =>
+            this.props.navigation.navigate('Home')
+          }
           ></Button>}
           centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
-          rightComponent={<Button title='login'
+          rightComponent={<Button title='LogIn'
             onPress={() =>
               this.props.navigation.navigate('SignIn')
             }
