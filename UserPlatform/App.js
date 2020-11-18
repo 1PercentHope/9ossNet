@@ -6,6 +6,7 @@ import SignIn from "./components/SignIn/SignIn.js";
 import SignUp from "./components/SignUp/SignUp.js";
 import User from "./components/User/User.js";
 import Profile from "./components/Profile/Profile.js";
+import Seats from "./components/Seats/Seats.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="User" component={User} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Seats" component={Seats} />
       </Stack.Navigator>
     </NavigationContainer>
   );

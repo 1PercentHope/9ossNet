@@ -3,6 +3,7 @@ import events from "../../dummy data/events.js";
 import { Text, View, Image, StyleSheet, Picker } from "react-native";
 import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 import Overlay from 'react-native-modal-overlay';
+import Seats from '../Seats/Seats.js'
 
 export default class Events extends Component {
     constructor(props) {
@@ -72,6 +73,7 @@ export default class Events extends Component {
     onClose = () => this.setState({ modalVisible: false });
     book() {
         this.setState({ toggle: !this.state.toggle })
+        // this.props.navigation.navigate("Seats");
     }
     hideModal() {
         this.setState({ toggle: !this.state.toggle })
@@ -125,8 +127,9 @@ export default class Events extends Component {
                     animationDuration={500}
                     style={{ width: '90%', height: '50vh', marginLeft: '5%', top: '20vh' }}>
                     <Fragment>
-                        <Text>Disclaimer:</Text>
-                        <Text>Please log in for some security reasons</Text>
+                        {/* <Text>Disclaimer:</Text>
+                        <Text>Please log in for some security reasons</Text> */}
+                        <Seats />
                         <Text onPress={this.hideModal}>Close</Text>
                     </Fragment>
                 </Overlay>}

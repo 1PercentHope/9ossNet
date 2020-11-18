@@ -11,7 +11,10 @@ export default class SignUn extends Component {
         this.state={
             data:[{email:'ali@rbk.com',Phonenumber:'22029477'}],
             Phone:'',
-            email:''
+            email:'',
+            firstName:'',
+            lastName:'',
+            password:'',
 
 
         };
