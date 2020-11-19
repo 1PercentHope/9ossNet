@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import { ListItem, Avatar } from 'react-native-elements';
 import History from '../History/History'
-
+import Home from '../Home/Home'
 
 
 export default class Profile extends Component {
@@ -55,7 +55,12 @@ export default class Profile extends Component {
                                 <ListItem.Title>History</ListItem.Title>
                             </ListItem.Content>
                             <ListItem.Chevron />
-                        </ListItem></View>}
+                        </ListItem>
+                <Button title='Logout'
+                
+                ></Button>
+                <Button title='Delete account'></Button>
+                        </View>}
                 </View>
                 {!this.state.hist && <History />}
 
