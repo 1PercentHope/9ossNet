@@ -9,26 +9,40 @@ export default class Seats extends Component {
     super(props);
     this.state = {
       seatsData: [
-        { N: "1" },
-        { N: "2" },
-        { N: "3" },
-        { N: "4" },
-        { N: "5" },
-        { N: "6" },
-        { N: "7" },
-        { N: "8" },
-        { N: "9" },
+        { N: "01" },
+        { N: "02" },
+        { N: "03" },
+        { N: "04" },
+        { N: "05" },
+        { N: "06" },
+        { N: "07" },
+        { N: "08" },
+        { N: "09" },
         { N: "10" },
+        { N: "11" },
+        { N: "12" },
+        { N: "13" },
+        { N: "14" },
+        { N: "15" },
+        { N: "16" },
+        { N: "17" },
+        { N: "18" },
+        { N: "19" },
+        { N: "20" },
       ],
     };
   }
 
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button title={seat.N}></Button>
+      <Button title={seat.N} ></Button>
     ));
     return (
-      <View>
+      <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap',position: 'realtive',
+      justifyContent: 'center',
+      alignItems: 'center',margin:'25%',padding:5,borderWidth: 4,
+      borderTopLeftRadius: 18,
+      borderTopRightRadius: 18,}}>
       {seatsButt}
       </View>
     );
