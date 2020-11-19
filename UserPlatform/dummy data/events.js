@@ -23,7 +23,7 @@ const events = [
   },
   {
     image:
-      "https://lh3.googleusercontent.com/proxy/Z2uixomRMgr19ubpIc_fHxfL18wwP8-jpeQVz6gq0dviZQZdbVVEojOep_fZzpPX8_UN5HN5nbRyvqSuUgogVt7YeeZz1tA9_NELM02I_oRjNnu3HAfzJj9R7KGu2Tlfc13Mj1jGsvJspXwgmmE",
+      "https://cdn1.webmanagercenter.com/tekiano/wp-content/uploads/2015/12/css-vs-ca.jpg",
     homeTeam: "css",
     awayTeam: "ca",
     place: "stade Rades",
