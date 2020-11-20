@@ -11,9 +11,19 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      account: 'Log in',
+      route: 'SignIn'
+    }
+  }
+  componentDidMount(){
+    if(window.localStorage.getItem('token') === null){
+      this.setState({account: 'Log in', route: 'SignIn'})
+    }else{
+      this.setState({account: 'account', route: 'User'})
     }
   }
   render() {
+    const {route} = this.state
     return (
       <View>
         <Header
@@ -23,9 +33,9 @@ export default class Home extends Component {
           }
           ></Button>}
           centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
-          rightComponent={<Button title='LogIn'
+          rightComponent={<Button title={this.state.account}
             onPress={() =>
-              this.props.navigation.navigate('SignIn')
+              this.props.navigation.navigate(route)
             }
           ></Button>}
         ></Header>
