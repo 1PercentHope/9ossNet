@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, PricingCard } from 'react-native-elements';
 import { View } from 'react-native';
-
+import axios from "axios";
 
 export default class History extends Component {
     constructor(props) {
@@ -15,6 +15,16 @@ export default class History extends Component {
         }
 
     }
+    componentDidMount() {
+        axios
+          .post("http://localhost:5000/purchase/history")
+          .then((res) => {
+            this.setState({ history: res.data });
+          })
+          .catch((err) => {
+            throw err;
+          });
+      }
 
     toggleOverlay() {
         this.setState({ visible: !this.state.visible });

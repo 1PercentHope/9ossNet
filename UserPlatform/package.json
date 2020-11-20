@@ -11,6 +11,7 @@
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+    "axios": "^0.21.0",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
@@ -22,13 +23,21 @@
     "react-native-navigation-bar": "^0.2.1",
     "react-native-range-slider": "^0.1.2",
     "react-native-reanimated": "~1.13.0",
+    "react-native-redux": "^1.0.10",
     "react-native-router-flux": "^4.2.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-simple-table": "0.0.3",
+    "react-native-sweet-alert": "^2.1.0",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.13.12",
-    "rn-range-slider": "^2.0.3"
+    "react-redux": "^7.2.2",
+    "react-thunk": "^1.0.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "rn-range-slider": "^2.0.3",
+    "sweetalert2": "^10.10.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
