@@ -4,7 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import { ListItem, Avatar } from 'react-native-elements';
 import History from '../History/History'
-import Home from '../Home/Home'
+import Axios from 'axios';
+
+
+
 
 
 export default class Profile extends Component {
@@ -22,15 +25,25 @@ export default class Profile extends Component {
     }
     showProfile() {
         this.setState({ slide: !this.state.slide })
+        if(this.state.hist === false){
+            this.setState({hist: true})
+        }
     }
     getHistory() {
         this.setState({ hist: !this.state.hist })
+    }
+    logOut(){
+        Axios.delete('http://localhost:5000/users/signout')
+        window.localStorage.removeItem('token');
+        window.location.reload(true)
     }
     render() {
         const { user } = this.state
 
         return (
+            
             <View>
+               
                 <View>
                     <Avatar onPress={() => { this.showProfile() }} size="large" rounded source={{uri:'https://www.aero-mag.com/wp-content/uploads/2019/07/AMJuly19News-ametek1-e1563205327354-1024x1024.jpg'}} />
                     {this.state.hist && this.state.slide && <View>
@@ -57,7 +70,7 @@ export default class Profile extends Component {
                             <ListItem.Chevron />
                         </ListItem>
                 <Button title='Logout'
-                
+                    onPress={()=>{this.logOut()}}
                 ></Button>
                 <Button title='Delete account'></Button>
                         </View>}

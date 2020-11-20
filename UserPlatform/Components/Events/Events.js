@@ -4,14 +4,16 @@ import { Text, View, Image, StyleSheet, Picker } from "react-native";
 import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
+import Swal from 'sweetalert2';
+import axios from "axios";
 
 export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
       games: "allgames",
-      events: events,
-      filterevents: events,
+      events: [],
+      filterevents: [],
       modalVisible: true,
       toggle: true,
       grad: true,
@@ -28,6 +30,17 @@ export default class Events extends Component {
     this.onPelouse = this.onPelouse.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
+  }
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/events")
+      .then((res) => {
+        this.setState({ events: res.data });
+        console.log(res.data,this.state.events)
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
   onPelouse() {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
@@ -66,7 +79,7 @@ export default class Events extends Component {
   }
   filterByCategory(category) {
     if (category === "all") {
-      this.setState({ filterevents: events });
+      this.setState({ filterevents: this.state.events });
     } else {
       const eventsFiltredByCategoryI = this.state.events.filter(
         (event) => event.category === category
@@ -76,7 +89,7 @@ export default class Events extends Component {
   }
   filterByPlace(place) {
     if (place === "all") {
-      this.setState({ filterevents: events });
+      this.setState({ filterevents: this.state.events });
     } else {
       const eventsFiltredByPlace = this.state.events.filter(
         (event) => event.place === place
@@ -86,8 +99,18 @@ export default class Events extends Component {
   }
   onClose = () => this.setState({ modalVisible: false });
   book() {
-    this.setState({ toggle: !this.state.toggle, show: !this.state.show });
-    // this.props.navigation.navigate("Seats");
+    if(window.localStorage.getItem('token') === null){
+      Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'please signin or create an account',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }else{
+     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
+   }
+ 
   }
   hideModal() {
     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
@@ -99,7 +122,7 @@ export default class Events extends Component {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
   }
   render() {
-    const eventsD = this.state.filterevents.map((event, key) => (
+    const eventsD = this.state.events.map((event, key) => (
       <View key={key} className="eventDiv">
         <Card>
           <Card.Title>{event.category}</Card.Title>

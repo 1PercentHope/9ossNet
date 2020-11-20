@@ -1,32 +1,47 @@
+import { connect } from "react-redux";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Input, Card, Button, TextInput } from "react-native-elements";
-
-export default class SignIn extends Component {
+import { Input, Card, Button } from "react-native-elements";
+import Swal from 'sweetalert2';
+import { login } from "../../actions/auth";
+import store from '../../store.js'
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usersData: [{ Phonenumber: "22029477", Password: "123456" }],
-      Phone: "",
-      Password: "",
+      usersData: [],
+      numberPhone: "",
+      password: "",
     };
+  
     this.Onlogin = this.Onlogin.bind(this);
   }
-  Onlogin() {
-    console.log(this.state.Phone, this.state.Password);
-
-    if (
-      this.state.Phone === this.state.usersData[0].Phonenumber &&
-      this.state.Password === this.state.usersData[0].Password
-    ) {
+  
+  
+   Onlogin() {
+    const data = store.getState()
+    console.log(this.state.Phone)
+     this.props.login(this.state.Phone, this.state.Password)
+    // if (window.localStorage.getItem('token')) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Welcome to 9ossNet',
+        showConfirmButton: false,
+        timer: 1500,
+      });
       this.props.navigation.navigate("User");
-    } else if (
-      this.state.Phone !== this.state.usersData[0].Phonenumber ||
-      this.state.Password !== this.state.usersData[0].Password
-    ) {
-      console.log("wrong phonenumber or password try again");
-    }
+    // }
+    //  {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Wrong Phonenumber OR Password',
+  //       text: `Try again`,
+  //     });
+      
+  //     console.log("wrong phonenumber or password try again")
+  //   }
   }
   render() {
     return (
@@ -59,3 +74,8 @@ export default class SignIn extends Component {
     );
   }
 }
+const mapStatetoProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStatetoProps, { login })(SignIn);
