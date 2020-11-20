@@ -19,11 +19,10 @@ class SignIn extends Component {
   }
   
   
-  Onlogin() {
+   Onlogin() {
     const data = store.getState()
-    const {numberPhone, password} = this.state
-    console.log(this.state)
-   const res =  this.props.login(numberPhone, password)
+    console.log(this.state.Phone)
+     this.props.login(this.state.Phone, this.state.Password)
    console.log(data)
     // if (
     // ) {
