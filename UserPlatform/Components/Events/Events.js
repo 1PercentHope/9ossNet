@@ -4,14 +4,15 @@ import { Text, View, Image, StyleSheet, Picker } from "react-native";
 import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
+import axios from "axios";
 
 export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
       games: "allgames",
-      events: events,
-      filterevents: events,
+      events: [],
+      filterevents: [],
       modalVisible: true,
       toggle: true,
       grad: true,
@@ -28,6 +29,16 @@ export default class Events extends Component {
     this.onPelouse = this.onPelouse.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
+  }
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/events")
+      .then((res) => {
+        this.setState({ events: res.data });
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
   onPelouse() {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
@@ -66,7 +77,7 @@ export default class Events extends Component {
   }
   filterByCategory(category) {
     if (category === "all") {
-      this.setState({ filterevents: events });
+      this.setState({ filterevents: this.state.events });
     } else {
       const eventsFiltredByCategoryI = this.state.events.filter(
         (event) => event.category === category
@@ -76,7 +87,7 @@ export default class Events extends Component {
   }
   filterByPlace(place) {
     if (place === "all") {
-      this.setState({ filterevents: events });
+      this.setState({ filterevents: this.state.events });
     } else {
       const eventsFiltredByPlace = this.state.events.filter(
         (event) => event.place === place
