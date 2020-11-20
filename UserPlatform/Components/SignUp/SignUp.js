@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Card, Button } from 'react-native-elements';
-
-
+import Swal from 'sweetalert2';
+import { connect } from "react-redux";
 
 export default class SignUn extends Component {
     constructor(props) {
@@ -23,8 +23,20 @@ export default class SignUn extends Component {
     }
     onSignUp(){
        if(this.state.Phone === this.state.data[0].Phonenumber||this.state.email===this.state.data[0].email){
+        Swal.fire({
+            icon: 'error',
+            title: 'Phonenumber OR Email already existant',
+            text: `Try Another Please`,
+          });
            console.log('already exisisting')
        } else{
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Welcome to 9ossNet',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           console.log('Welcome new user') 
         this.props.navigation.navigate('User') }
     }
