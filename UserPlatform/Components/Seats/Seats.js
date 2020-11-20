@@ -32,10 +32,12 @@ export default class Seats extends Component {
       ],
     };
   }
-
+  purchase(seat){
+    console.log(seat)
+  }
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button title={seat.N} ></Button>
+      <Button key={seat.N} title={seat.N} onPress={()=>{this.purchase(seat.N)}}></Button>
     ));
     return (
       <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap',position: 'realtive',

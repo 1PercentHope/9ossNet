@@ -25,6 +25,9 @@ export default class Profile extends Component {
     }
     showProfile() {
         this.setState({ slide: !this.state.slide })
+        if(this.state.hist === false){
+            this.setState({hist: true})
+        }
     }
     getHistory() {
         this.setState({ hist: !this.state.hist })

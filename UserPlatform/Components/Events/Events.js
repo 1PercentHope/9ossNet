@@ -4,6 +4,7 @@ import { Text, View, Image, StyleSheet, Picker } from "react-native";
 import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
+import Swal from 'sweetalert2';
 import axios from "axios";
 
 export default class Events extends Component {
@@ -98,8 +99,18 @@ export default class Events extends Component {
   }
   onClose = () => this.setState({ modalVisible: false });
   book() {
-    this.setState({ toggle: !this.state.toggle, show: !this.state.show });
-    // this.props.navigation.navigate("Seats");
+    if(window.localStorage.getItem('token') === null){
+      Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'please signin or create an account',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }else{
+     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
+   }
+ 
   }
   hideModal() {
     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
