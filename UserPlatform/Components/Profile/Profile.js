@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import { ListItem, Avatar } from 'react-native-elements';
 import History from '../History/History'
+import Axios from 'axios';
 
 
 
@@ -24,9 +25,17 @@ export default class Profile extends Component {
     }
     showProfile() {
         this.setState({ slide: !this.state.slide })
+        if(this.state.hist === false){
+            this.setState({hist: true})
+        }
     }
     getHistory() {
         this.setState({ hist: !this.state.hist })
+    }
+    logOut(){
+        Axios.delete('http://localhost:5000/users/signout')
+        window.localStorage.removeItem('token');
+        window.location.reload(true)
     }
     render() {
         const { user } = this.state
@@ -61,7 +70,7 @@ export default class Profile extends Component {
                             <ListItem.Chevron />
                         </ListItem>
                 <Button title='Logout'
-                
+                    onPress={()=>{this.logOut()}}
                 ></Button>
                 <Button title='Delete account'></Button>
                         </View>}

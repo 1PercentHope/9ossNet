@@ -19,34 +19,29 @@ class SignIn extends Component {
   }
   
   
-  Onlogin() {
+   Onlogin() {
     const data = store.getState()
-    const {numberPhone, password} = this.state
-    console.log(this.state)
-   const res =  this.props.login(numberPhone, password)
-   console.log(data)
-    // if (
-    // ) {
-    //   Swal.fire({
-    //     position: 'top-end',
-    //     icon: 'success',
-    //     title: 'Welcome to 9ossNet',
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    //   this.props.navigation.navigate("User");
-    // } else if (
-    //   this.state.Phone !== this.state.usersData[0].Phonenumber ||
-    //   this.state.Password !== this.state.usersData[0].Password
-    // ) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Wrong Phonenumber OR Password',
-    //     text: `Try again`,
-    //   });
-      
-    //   console.log("wrong phonenumber or password try again")
+    console.log(this.state.Phone)
+     this.props.login(this.state.Phone, this.state.Password)
+    // if (window.localStorage.getItem('token')) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Welcome to 9ossNet',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.props.navigation.navigate("User");
     // }
+    //  {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Wrong Phonenumber OR Password',
+  //       text: `Try again`,
+  //     });
+      
+  //     console.log("wrong phonenumber or password try again")
+  //   }
   }
   render() {
     return (

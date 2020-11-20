@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Input, Card, Button, TextInput } from "react-native-elements";
@@ -32,10 +33,15 @@ export default class Seats extends Component {
       ],
     };
   }
-
+  purchase(seat){
+    Axios.post('http://localhost:5000/purchase/pay',{price: '10'})
+    .then(res=>{
+      console.log(res.data)
+    })
+  }
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button title={seat.N} ></Button>
+      <Button key={seat.N} title={seat.N} onPress={()=>{this.purchase(seat.N)}}></Button>
     ));
     return (
       <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap',position: 'realtive',
