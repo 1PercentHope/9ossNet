@@ -35,6 +35,7 @@ export default class Events extends Component {
       .get("http://localhost:5000/events")
       .then((res) => {
         this.setState({ events: res.data });
+        console.log(res.data,this.state.events)
       })
       .catch((err) => {
         throw err;
@@ -110,7 +111,7 @@ export default class Events extends Component {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
   }
   render() {
-    const eventsD = this.state.filterevents.map((event, key) => (
+    const eventsD = this.state.events.map((event, key) => (
       <View key={key} className="eventDiv">
         <Card>
           <Card.Title>{event.category}</Card.Title>
