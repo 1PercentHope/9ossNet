@@ -32,7 +32,7 @@ export default class Events extends Component {
   }
   componentDidMount() {
     axios
-      .get("http:///events")
+      .get("http://localhost:5000/events")
       .then((res) => {
         this.setState({ events: res.data });
       })
