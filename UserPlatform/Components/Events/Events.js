@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import events from "../../dummy data/events.js";
-import { Text, View, Image, StyleSheet, Picker } from "react-native";
+import { Text, View, Image, StyleSheet, Picker, TouchableOpacity } from "react-native";
 import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
@@ -123,27 +123,29 @@ export default class Events extends Component {
   }
   render() {
     const eventsD = this.state.events.map((event, key) => (
-      <View key={key} className="eventDiv">
-        <Card>
-          <Card.Title>{event.category}</Card.Title>
+      <View key={key} className="eventDiv" >
+        <Card containerStyle={styles.card}>
+          <Card.Title style={{fontSize:40}}>{event.category}</Card.Title>
           <Card.Divider />
           <Card.Image source={{ uri: event.image }} />
-          <Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>
             {event.homeTeam} VS {event.awayTeam}
           </Text>
-          <Text>{event.place}</Text>
-          <Text>{event.date}</Text>
-          <Text>{event.description}</Text>
-          <Text>{event.category}</Text>
-          <Text>{event.price}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.place}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.date}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.description}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.category}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.price} DT</Text>
           <Button
             onPress={this.book}
-            icon={<Icon color="#ffffff" />}
+            color="#cce6d4"
             buttonStyle={{
               borderRadius: 0,
               marginLeft: 0,
               marginRight: 0,
               marginBottom: 0,
+              backgroundColor: "#085720",
+              shadowRadius: 10
             }}
             title="GET TICKET"
           />
@@ -156,7 +158,8 @@ export default class Events extends Component {
         {this.state.toggle && (
           <View>
             {" "}
-            <Picker onValueChange={this.pikerHandler}>
+            <TouchableOpacity style={styles.picker}>
+            <Picker onValueChange={this.pikerHandler} itemStyle={{color: 'blue'}}>
               <Picker.Item label="All Categories" value="0"></Picker.Item>
               <Picker.Item label="League 1" value="8000"></Picker.Item>
               <Picker.Item label="Cup" value="7000"></Picker.Item>
@@ -166,6 +169,7 @@ export default class Events extends Component {
               <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
               <Picker.Item label="stade Rades" value="b"></Picker.Item>
             </Picker>
+            </TouchableOpacity>
             {eventsD}
           </View>
         )}
@@ -241,3 +245,9 @@ export default class Events extends Component {
     );
   }
 };
+
+const styles = StyleSheet.create({
+  picker: {top:10,alignItems: 'center', justifyContent: "space-around"},
+  item: { textAlign: "center"},
+  card: {backgroundColor: "#f1f5ed", shadowRadius: 10, borderRadius:10}
+});
