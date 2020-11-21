@@ -45,34 +45,44 @@ export default class Profile extends Component {
             <View>
                
                 <View>
-                    <Avatar onPress={() => { this.showProfile() }} size="large" rounded source={{uri:'https://www.aero-mag.com/wp-content/uploads/2019/07/AMJuly19News-ametek1-e1563205327354-1024x1024.jpg'}} />
+                    <Avatar onPress={() => { this.showProfile(), this.props.toggle() }} size="large" rounded source={{uri:'https://www.aero-mag.com/wp-content/uploads/2019/07/AMJuly19News-ametek1-e1563205327354-1024x1024.jpg'}} />
                     {this.state.hist && this.state.slide && <View>
                         <ListItem bottomDivider>
+                        <Icon />
                             <ListItem.Content>
-                                <ListItem.Title>{user.firstName}</ListItem.Title>
+                                <ListItem.Title>   {user.firstName}</ListItem.Title>
                             </ListItem.Content>
                         </ListItem>
                         <ListItem bottomDivider>
+                        <Icon />
                             <ListItem.Content>
-                                <ListItem.Title>{user.lastName}</ListItem.Title>
+                                <ListItem.Title>   {user.lastName}</ListItem.Title>
                             </ListItem.Content>
                         </ListItem>
                         <ListItem bottomDivider>
+                        <Icon />
                             <ListItem.Content>
-                                <ListItem.Title>Mkachakh</ListItem.Title>
+                                <ListItem.Title>   Mkachakh</ListItem.Title>
                             </ListItem.Content>
                         </ListItem>
                         <ListItem bottomDivider onPress={() => { this.getHistory() }}>
-                            <Icon name="key" />
+                            <Icon />
                             <ListItem.Content>
-                                <ListItem.Title>History</ListItem.Title>
+                                <ListItem.Title>   History</ListItem.Title>
                             </ListItem.Content>
                             <ListItem.Chevron />
                         </ListItem>
-                <Button title='Logout'
+                        <ListItem bottomDivider onPress={()=>{this.logOut()}}>
+                            <Icon name="key" />
+                            <ListItem.Content>
+                                <ListItem.Title>Logout</ListItem.Title>
+                            </ListItem.Content>
+                            <ListItem.Chevron />
+                        </ListItem>
+                {/* <Button title='Logout'
                     onPress={()=>{this.logOut()}}
-                ></Button>
-                <Button title='Delete account'></Button>
+                ></Button> */}
+                {/* <Button title='Delete account'></Button> */}
                         </View>}
                 </View>
                 {!this.state.hist && <History />}

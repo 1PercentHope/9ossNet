@@ -159,7 +159,7 @@ export default class Events extends Component {
           <View>
             {" "}
             <TouchableOpacity style={styles.picker}>
-            <Picker onValueChange={this.pikerHandler} itemStyle={{color: 'blue'}}>
+            <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
               <Picker.Item label="All Categories" value="0"></Picker.Item>
               <Picker.Item label="League 1" value="8000"></Picker.Item>
               <Picker.Item label="Cup" value="7000"></Picker.Item>
@@ -249,5 +249,5 @@ export default class Events extends Component {
 const styles = StyleSheet.create({
   picker: {top:10,alignItems: 'center', justifyContent: "space-around"},
   item: { textAlign: "center"},
-  card: {backgroundColor: "#f1f5ed", shadowRadius: 10, borderRadius:10}
+  card: {backgroundColor: "#f1f5ed", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
 });
