@@ -20,28 +20,26 @@ class SignIn extends Component {
 
 
   Onlogin() {
-    const data = store.getState()
-    console.log(this.state.Phone)
     this.props.login(this.state.Phone, this.state.Password)
-    // if (window.localStorage.getItem('token')) {
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Welcome to 9ossNet',
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    this.props.navigation.navigate("User");
-    // }
-    //  {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: 'Wrong Phonenumber OR Password',
-    //       text: `Try again`,
-    //     });
-
-    //     console.log("wrong phonenumber or password try again")
-    //   }
+    const data = store.getState()
+    console.log(data)
+    if (data.auth.token) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Welcome to 9ossNet',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.props.navigation.navigate("User");
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Wrong Phonenumber OR Password',
+        text: `Try again`,
+      });
+      console.log("wrong phonenumber or password try again")
+    }
   }
   render() {
     return (
@@ -56,6 +54,7 @@ class SignIn extends Component {
           />
           <Input
             placeholder="Password"
+            secureTextEntry={true}
             leftIcon={<Icon name="lock" size={24} color="black" />}
             onChange={(e) => {
               this.setState({ Password: e.target.value });

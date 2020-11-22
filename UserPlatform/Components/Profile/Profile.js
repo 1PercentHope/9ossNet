@@ -9,7 +9,6 @@ import Axios from 'axios';
 
 
 
-
 export default class Profile extends Component {
     constructor(props) {
         super(props);
