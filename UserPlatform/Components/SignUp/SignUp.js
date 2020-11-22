@@ -37,26 +37,26 @@ export default class SignUn extends Component {
                 console.log(code)
                 Axios.post('http://localhost:5000/users/signup', {
                     firstName: this.state.firstName,
-                    lastName: this.state.lastName, 
+                    lastName: this.state.lastName,
                     password: this.state.Password,
                     phoneNumber: this.state.Phone,
                     email: this.state.email,
                     code: code
                 })
-                .then(res=>{
-                    console.log(res.data)
-                    if(res.data.text === 'ok'){
-                        this.props.navigation.navigate('User')
-                    }else{
-                        Swal.fire({
-                                  icon: 'error',
-                                  title: 'Your Informations Or Code are not falid',
-                                  text: `Try again`,
-                                });
-                    }
-                })
+                    .then(res => {
+                        console.log(res.data)
+                        if (res.data.text === 'ok') {
+                            this.props.navigation.navigate('User')
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Your Informations Or Code are not falid',
+                                text: `Try again`,
+                            });
+                        }
+                    })
             },
-        }) 
+        })
     }
     render() {
 
@@ -124,6 +124,14 @@ export default class SignUn extends Component {
                     <Button
                         title="Sign Up"
                         onPress={this.onSignUp}
+                        buttonStyle={{
+                            borderRadius: 0,
+                            marginLeft: 0,
+                            marginRight: 0,
+                            marginBottom: 0,
+                            backgroundColor: "#085720",
+                            shadowRadius: 10
+                        }}
                     />
                 </Card>
             </View>

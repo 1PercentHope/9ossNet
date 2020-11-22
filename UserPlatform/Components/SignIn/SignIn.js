@@ -14,16 +14,16 @@ class SignIn extends Component {
       numberPhone: "",
       password: "",
     };
-  
+
     this.Onlogin = this.Onlogin.bind(this);
   }
-  
-  
-   Onlogin() {
+
+
+  Onlogin() {
+    this.props.login(this.state.Phone, this.state.Password)
     const data = store.getState()
-    console.log(this.state.Phone)
-     this.props.login(this.state.Phone, this.state.Password)
-    // if (window.localStorage.getItem('token')) {
+    console.log(data)
+    if (data.auth.token) {
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -32,16 +32,14 @@ class SignIn extends Component {
         timer: 1500,
       });
       this.props.navigation.navigate("User");
-    // }
-    //  {
-  //     Swal.fire({
-  //       icon: 'error',
-  //       title: 'Wrong Phonenumber OR Password',
-  //       text: `Try again`,
-  //     });
-      
-  //     console.log("wrong phonenumber or password try again")
-  //   }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Wrong Phonenumber OR Password',
+        text: `Try again`,
+      });
+      console.log("wrong phonenumber or password try again")
+    }
   }
   render() {
     return (
@@ -56,13 +54,23 @@ class SignIn extends Component {
           />
           <Input
             placeholder="Password"
+            secureTextEntry={true}
             leftIcon={<Icon name="lock" size={24} color="black" />}
             onChange={(e) => {
               this.setState({ Password: e.target.value });
               console.log(this.state.Password);
             }}
           />
-          <Button title="Log in" onPress={this.Onlogin} />
+          <Button title="Log in"
+            buttonStyle={{
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0,
+              backgroundColor: "#085720",
+              shadowRadius: 10
+            }}
+            onPress={this.Onlogin} />
           <Text>
             Or{" "}
             <Text onPress={() => this.props.navigation.navigate("SignUp")}>

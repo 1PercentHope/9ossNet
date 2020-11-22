@@ -11,33 +11,39 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: 'Log in',
+      account: 'lock',
       route: 'SignIn'
     }
   }
-  componentDidMount(){
-    if(window.localStorage.getItem('token') === null){
-      this.setState({account: 'Log in', route: 'SignIn'})
-    }else{
-      this.setState({account: 'account', route: 'User'})
+  componentDidMount() {
+    if (window.localStorage.getItem('token') === null) {
+      this.setState({ account: 'lock', route: 'SignIn' })
+    } else {
+      this.setState({ account: 'lock', route: 'User' })
     }
   }
   render() {
-    const {route} = this.state
+    const { route } = this.state
     return (
       <View>
         <Header
-          leftComponent={<Button title='Home'
-          onPress={() =>
-            this.props.navigation.navigate('Home')
-          }
-          ></Button>}
-          centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
-          rightComponent={<Button title={this.state.account}
+          backgroundImage={require('../../assets/header.jpg')}
+          containerStyle={{height: 60}}
+          leftComponent={<Icon
+            color='white'
+            name="home"
+            // title='Home'
+            onPress={() =>
+              this.props.navigation.navigate('Home')
+            }
+          ></Icon>}
+          // centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
+          rightComponent={<Icon name={this.state.account}
+            color='white'
             onPress={() =>
               this.props.navigation.navigate(route)
             }
-          ></Button>}
+          ></Icon>}
         ></Header>
         <Events />
       </View>
