@@ -6,15 +6,15 @@ import {
   } from "../actions/types";
   
   const initialState = {
-    token: localStorage.getItem("token"),
+    token: window.localStorage.getItem("token"),
     isAuthenticated: null,
-    user: 'ok',
+    user: 'ok'
   };
   export default function (state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
       case LOGIN_SUCCESS:
-        localStorage.setItem("token", payload);
+        window.localStorage.setItem("token", JSON.stringify(payload));
         return {
           ...state,
           token: payload,
@@ -24,7 +24,7 @@ import {
       case AUTH_ERROR:
       case LOGIN_FAIL:
       case LOGOUT:
-        localStorage.removeItem("token");
+        window.localStorage.removeItem("token");
         return {
           ...state,
           token: null,
