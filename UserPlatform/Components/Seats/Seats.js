@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Input, Card, Button, TextInput } from "react-native-elements";
 import Table from 'react-native-simple-table'
+import Swal from 'sweetalert2';
+
 
 
 export default class Seats extends Component {
@@ -37,6 +39,14 @@ export default class Seats extends Component {
     Axios.post('http://localhost:5000/purchase/pay',{price: '10'})
     .then(res=>{
       console.log(res.data)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your Qr Code',
+        showConfirmButton: true,
+        html: "<img src='" + res.data.src + "' style='width:150px;'>",
+        content:true,
+      });
     })
   }
   render() {
