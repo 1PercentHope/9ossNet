@@ -43,12 +43,13 @@ export default class Events extends Component {
         throw err;
       });
   }
+  async onGradin() {
+    await this.setState({ grad: !this.state.grad, show: !this.state.show, side: 'gradin' });
+   }
   async onPelouse() {
     await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show , side: 'pelouse'});
   }
-  async onGradin() {
-   await this.setState({ grad: !this.state.grad, show: !this.state.show, side: 'gradin' });
-  }
+
   pikerHandler(item, index) {
     switch (item) {
       case "8000":

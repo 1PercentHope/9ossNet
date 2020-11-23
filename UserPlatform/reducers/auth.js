@@ -8,13 +8,14 @@ import {
   const initialState = {
     token: window.localStorage.getItem("token"),
     isAuthenticated: null,
-    user: 'ok'
+    user: 'ok',
+    // phone: null
   };
   export const rootReducer = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
       case LOGIN_SUCCESS:
-        window.localStorage.setItem("token", JSON.stringify(payload));
+        window.localStorage.setItem("token", JSON.stringify(payload.token));
         return {
           ...state,
           token: payload.token,
