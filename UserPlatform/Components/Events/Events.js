@@ -11,6 +11,7 @@ export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
       games: "allgames",
       events: [],
       filterevents: [],
@@ -19,6 +20,7 @@ export default class Events extends Component {
       grad: true,
       pelouse: true,
       show: true,
+      side: '',
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.pikerHandler = this.pikerHandler.bind(this);
@@ -36,21 +38,19 @@ export default class Events extends Component {
       .get("http://localhost:5000/events")
       .then((res) => {
         this.setState({ events: res.data });
-        console.log(res.data,this.state.events)
       })
       .catch((err) => {
         throw err;
       });
   }
-  onPelouse() {
-    this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
+  async onGradin() {
+    await this.setState({ grad: !this.state.grad, show: !this.state.show, side: 'gradin' });
+   }
+  async onPelouse() {
+    await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show , side: 'pelouse'});
   }
-  onGradin() {
-    this.setState({ grad: !this.state.grad, show: !this.state.show });
-    console.log(this.state.grad);
-  }
+
   pikerHandler(item, index) {
-    console.log(item);
     switch (item) {
       case "8000":
         this.filterByCategory("league 1");
@@ -63,7 +63,6 @@ export default class Events extends Component {
     }
   }
   pikerHandler2(item1, index) {
-    console.log(item1);
     switch (item1) {
       case "a":
         this.filterByPlace("stade Tayeb Mhiri");
@@ -98,7 +97,8 @@ export default class Events extends Component {
     }
   }
   onClose = () => this.setState({ modalVisible: false });
-  book() {
+  book(eventid) {
+    this.setState({id: eventid})
     if(window.localStorage.getItem('token') === null){
       Swal.fire({
         position: 'top-end',
@@ -137,7 +137,7 @@ export default class Events extends Component {
           <Text style={{textAlign: 'center', fontSize:20}}>{event.category}</Text>
           <Text style={{textAlign: 'center', fontSize:20}}>{event.price} DT</Text>
           <Button
-            onPress={this.book}
+            onPress={()=>{this.book(event.id)}}
             color="#cce6d4"
             buttonStyle={{
               borderRadius: 0,
@@ -236,7 +236,7 @@ export default class Events extends Component {
             }}
           >
             <Fragment>
-              <Seats />
+              <Seats event={this.state.id} side={this.state.side}/>
               <Text onPress={this.hideModal3}>Close</Text>
             </Fragment>
           </Overlay>
