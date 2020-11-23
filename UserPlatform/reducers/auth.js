@@ -10,7 +10,7 @@ import {
     isAuthenticated: null,
     user: 'ok'
   };
-  export default function (state = initialState, action) {
+  export const rootReducer = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
       case LOGIN_SUCCESS:
@@ -36,3 +36,5 @@ import {
         return state;
     }
   }
+
+  export default rootReducer
