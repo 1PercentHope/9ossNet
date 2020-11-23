@@ -4,6 +4,7 @@ import { View, Text } from "react-native";
 import { Input, Card, Button, TextInput } from "react-native-elements";
 import Table from 'react-native-simple-table'
 import Swal from 'sweetalert2';
+import store from '../../store.js'
 
 
 
@@ -11,34 +12,28 @@ export default class Seats extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      side: this.props.side,
+      seatNumber: '',
       seatsData: [
-        { N: "01" },
-        { N: "02" },
-        { N: "03" },
-        { N: "04" },
-        { N: "05" },
-        { N: "06" },
-        { N: "07" },
-        { N: "08" },
-        { N: "09" },
-        { N: "10" },
-        { N: "11" },
-        { N: "12" },
-        { N: "13" },
-        { N: "14" },
-        { N: "15" },
-        { N: "16" },
-        { N: "17" },
-        { N: "18" },
-        { N: "19" },
-        { N: "20" },
       ],
     };
   }
+  async componentDidMount(){
+   await Axios.get('http://localhost:5000/seats')
+    .then(seats=>{
+      const stadSeat = this.props.side
+      console.log(stadSeat)
+      const Seats = seats.data.filter(seat=>{return seat.type === stadSeat })
+      this.setState({seatsData: Seats})
+      console.log(seats.data)
+    })
+  }
   purchase(seat){
-    Axios.post('http://localhost:5000/purchase/pay',{price: '10'})
+    this.setState({seatNumber: seat})
+    const data = store.getState()
+    const {event, side} = this.props
+    Axios.post('http://localhost:5000/purchase/pay',{price: '10',seatNumber: seat,eventid: event, type: side , numberPhone: data.auth.phone})
     .then(res=>{
-      console.log(res.data)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -51,7 +46,7 @@ export default class Seats extends Component {
   }
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button key={seat.N} title={seat.N} onPress={()=>{this.purchase(seat.N)}}></Button>
+      <Button key={seat.Number} title={seat.Number} onPress={()=>{this.purchase(seat.Number)}}></Button>
     ));
     return (
       <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap',position: 'realtive',

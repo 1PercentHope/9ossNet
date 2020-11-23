@@ -18,12 +18,10 @@ export default class History extends Component {
     }
     componentDidMount() {
         const data = store.getState()
-    console.log(data)
         axios
             .post("http://localhost:5000/purchase/history")
             .then((res) => {
                 this.setState({ history: res.data });
-                console.log(this.state.history)
             })
             .catch((err) => {
                 throw err;

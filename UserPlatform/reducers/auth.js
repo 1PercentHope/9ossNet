@@ -17,7 +17,8 @@ import {
         window.localStorage.setItem("token", JSON.stringify(payload));
         return {
           ...state,
-          token: payload,
+          token: payload.token,
+          phone: payload.phone,
           isAuthenticated: true,
         };
   
@@ -30,6 +31,7 @@ import {
           token: null,
           isAuthenticated: false,
           loading: false,
+          phone: null,
         };
   
       default:

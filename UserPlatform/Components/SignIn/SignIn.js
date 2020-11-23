@@ -23,7 +23,6 @@ class SignIn extends Component {
     this.props.login(this.state.Phone, this.state.Password)
     setTimeout(()=>{
       const data = store.getState()
-      console.log(data)
       if (data.auth.token) {
         Swal.fire({
           position: 'top-end',
