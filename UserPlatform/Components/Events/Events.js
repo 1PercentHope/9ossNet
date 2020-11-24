@@ -21,13 +21,13 @@ export default class Events extends Component {
       show: true,
     };
     this.filterByCategory = this.filterByCategory.bind(this);
-    this.pikerHandler = this.pikerHandler.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
+    this.pikerHandler = this.pikerHandler.bind(this);
     this.pikerHandler2 = this.pikerHandler2.bind(this);
     this.book = this.book.bind(this);
-    this.hideModal = this.hideModal.bind(this);
     this.onGradin = this.onGradin.bind(this);
     this.onPelouse = this.onPelouse.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
   }
