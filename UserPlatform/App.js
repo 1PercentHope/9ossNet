@@ -7,6 +7,7 @@ import User from "./components/User/User.js";
 import Profile from "./components/Profile/Profile.js";
 import Seats from "./components/Seats/Seats.js";
 import History from './components/History/History.js';
+import Purchase from './components/Purchase/Purchase.js';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {Provider} from 'react-redux';
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Seats" component={Seats} />
         <Stack.Screen name="History" component={History} />
+        <Stack.Screen name="Purchase" component={Purchase} />
       </Stack.Navigator>
       </Provider>
     </NavigationContainer>
