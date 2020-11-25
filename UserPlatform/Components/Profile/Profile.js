@@ -6,6 +6,7 @@ import { ListItem, Avatar } from 'react-native-elements';
 import History from '../History/History'
 import Axios from 'axios';
 import store from '../../store.js'
+import Uploadimage from '../Uploadimage/Uploadimage'
 
 
 
@@ -21,8 +22,10 @@ export default class Profile extends Component {
             },
             slide: false,
             hist: true,
-            phone: ''
+            phone: '',
+            imageUp:''
         }
+        this.goCloudy=this.goCloudy.bind(this);
     }
     componentDidMount() {
         const data = store.getState()
@@ -55,6 +58,9 @@ export default class Profile extends Component {
         Axios.delete('http://localhost:5000/users/signout')
         window.localStorage.removeItem('token');
         window.location.reload(true)
+    }
+    goCloudy(){
+        this.setState({imageUp:'shown'})
     }
     render() {
         const { user } = this.state
@@ -91,6 +97,12 @@ export default class Profile extends Component {
                             </ListItem.Content>
                             <ListItem.Chevron />
                         </ListItem>
+                        <ListItem bottomDivider onPress={this.goCloudy}> 
+                            <Icon name ="home"/>
+                            <ListItem.Content >
+                                <ListItem.Title >Update profile image</ListItem.Title>
+                            </ListItem.Content>
+                            <ListItem.Chevron  bottomDivider /></ListItem>
                         <ListItem bottomDivider onPress={() => { this.logOut() }}>
                             <Icon name="key" />
                             <ListItem.Content>
@@ -104,6 +116,7 @@ export default class Profile extends Component {
                         {/* <Button title='Delete account'></Button> */}
                     </View>}
                 </View>
+                {this.state.imageUp === 'shown' && <Uploadimage/>}
                 {!this.state.hist && <History />}
 
             </View>
