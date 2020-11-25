@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
 import events from "../../dummy data/events.js";
 import { Text, View, Image, StyleSheet, Picker, TouchableOpacity } from "react-native";
-import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
+import { Button, Card,ListItem, Icon  } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
 import Swal from 'sweetalert2';
 import axios from "axios";
+
 
 export default class Events extends Component {
   constructor(props) {
@@ -250,7 +251,10 @@ export default class Events extends Component {
 };
 
 const styles = StyleSheet.create({
-  picker: {top:10,alignItems: 'center', justifyContent: "space-around"},
+  picker: {top:10,alignItems: 'left', justifyContent: "space-around"},
   item: { textAlign: "center"},
-  card: {backgroundColor: "#f1f5ed", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
+  card: {backgroundColor: "##008000", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
 });
+
+
+
