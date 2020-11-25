@@ -1,14 +1,14 @@
 import "react-native-gesture-handler";
 import React from "react";
 import { View } from "react-native";
-import Home from "./components/Home/Home.js";
-import SignIn from "./components/SignIn/SignIn.js";
-import SignUp from "./components/SignUp/SignUp.js";
-import User from "./components/User/User.js";
-import Profile from "./components/Profile/Profile.js";
-import Seats from "./components/Seats/Seats.js";
-import History from './components/History/History.js';
-import Purchase from './components/Purchase/Purchase.js';
+import Home from "./Components/Home/Home.js";
+import SignIn from "./Components/SignIn/SignIn.js";
+import SignUp from "./Components/SignUp/SignUp.js";
+import User from "./Components/User/User.js";
+import Profile from "./Components/Profile/Profile.js";
+import Seats from "./Components/Seats/Seats.js";
+import History from './Components/History/History.js';
+import Purchase from './Components/Purchase/Purchase.js';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {Provider} from 'react-redux';
@@ -17,7 +17,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-
     <NavigationContainer>
       <Provider store ={store}>
       <Stack.Navigator initialRouteName="Home">
@@ -32,6 +31,5 @@ export default function App() {
       </Stack.Navigator>
       </Provider>
     </NavigationContainer>
-
   );
 }
