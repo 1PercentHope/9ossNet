@@ -14,39 +14,35 @@ class SignIn extends Component {
       numberPhone: "",
       password: "",
     };
-  
+
     this.Onlogin = this.Onlogin.bind(this);
   }
-  
-  
+
+
   Onlogin() {
-    const data = store.getState()
-    const {numberPhone, password} = this.state
-    console.log(this.state)
-   const res =  this.props.login(numberPhone, password)
-   console.log(data)
-    // if (
-    // ) {
-    //   Swal.fire({
-    //     position: 'top-end',
-    //     icon: 'success',
-    //     title: 'Welcome to 9ossNet',
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    //   this.props.navigation.navigate("User");
-    // } else if (
-    //   this.state.Phone !== this.state.usersData[0].Phonenumber ||
-    //   this.state.Password !== this.state.usersData[0].Password
-    // ) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Wrong Phonenumber OR Password',
-    //     text: `Try again`,
-    //   });
-      
-    //   console.log("wrong phonenumber or password try again")
-    // }
+    this.props.login(this.state.Phone, this.state.Password)
+    setTimeout(()=>{
+      const data = store.getState()
+      if (data.auth.token) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Welcome to 9ossNet',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.props.navigation.navigate("User");
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Wrong Phonenumber OR Password',
+          text: `Try again`,
+        });
+        console.log("wrong phonenumber or password try again")
+      }
+    },500)
+
+ 
   }
   render() {
     return (
@@ -61,13 +57,23 @@ class SignIn extends Component {
           />
           <Input
             placeholder="Password"
+            secureTextEntry={true}
             leftIcon={<Icon name="lock" size={24} color="black" />}
             onChange={(e) => {
               this.setState({ Password: e.target.value });
               console.log(this.state.Password);
             }}
           />
-          <Button title="Log in" onPress={this.Onlogin} />
+          <Button title="Log in"
+            buttonStyle={{
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0,
+              backgroundColor: "#085720",
+              shadowRadius: 10
+            }}
+            onPress={this.Onlogin} />
           <Text>
             Or{" "}
             <Text onPress={() => this.props.navigation.navigate("SignUp")}>

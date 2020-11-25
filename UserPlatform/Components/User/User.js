@@ -13,7 +13,8 @@ export default class User extends Component {
                 firstName: 'Skander',
                 lastName: 'Ben Romdhan',
                 img: 'url'
-            }
+            },
+            show: true,
         }
     }
 
@@ -22,8 +23,8 @@ export default class User extends Component {
 
         return (
             <View>
-                <Profile />
-                <Events />
+                <Profile toggle={()=>{this.setState({show: ! this.state.show})}}/>
+              {this.state.show && <Events /> }  
             </View>
         )
     }

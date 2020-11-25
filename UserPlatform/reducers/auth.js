@@ -6,33 +6,38 @@ import {
   } from "../actions/types";
   
   const initialState = {
-    token: localStorage.getItem("token"),
+    token: window.localStorage.getItem("token"),
     isAuthenticated: null,
-    user: null,
+    user: 'ok',
+    // phone: null
   };
-  export default function (state = initialState, action) {
+  export const rootReducer = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
       case LOGIN_SUCCESS:
-        localStorage.setItem("token", payload);
+        window.localStorage.setItem("token", JSON.stringify(payload.token));
         return {
           ...state,
-          token: payload,
+          token: payload.token,
+          phone: payload.phone,
           isAuthenticated: true,
         };
   
       case AUTH_ERROR:
       case LOGIN_FAIL:
       case LOGOUT:
-        localStorage.removeItem("token");
+        window.localStorage.removeItem("token");
         return {
           ...state,
           token: null,
           isAuthenticated: false,
           loading: false,
+          phone: null,
         };
   
       default:
         return state;
     }
   }
+
+  export default rootReducer

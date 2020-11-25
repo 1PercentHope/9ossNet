@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from "react";
 import events from "../../dummy data/events.js";
-import { Text, View, Image, StyleSheet, Picker } from "react-native";
-import { Button, Card, ListItem, Icon, Header } from "react-native-elements";
+import { Text, View, Image, StyleSheet, Picker, TouchableOpacity } from "react-native";
+import { Button, Card,ListItem, Icon  } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
+import Swal from 'sweetalert2';
 import axios from "axios";
+
 
 export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
       games: "allgames",
       events: [],
       filterevents: [],
@@ -18,50 +21,50 @@ export default class Events extends Component {
       grad: true,
       pelouse: true,
       show: true,
+      side: '',
     };
     this.filterByCategory = this.filterByCategory.bind(this);
-    this.pikerHandler = this.pikerHandler.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
+    this.pikerHandler = this.pikerHandler.bind(this);
     this.pikerHandler2 = this.pikerHandler2.bind(this);
     this.book = this.book.bind(this);
-    this.hideModal = this.hideModal.bind(this);
     this.onGradin = this.onGradin.bind(this);
     this.onPelouse = this.onPelouse.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
   }
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/events")
+ async componentDidMount() {
+
+    await axios.get("http://localhost:5000/events")
       .then((res) => {
-        this.setState({ events: res.data });
+        this.setState({ events: res.data ,filterevents: res.data});
+        console.log(this.state)
       })
       .catch((err) => {
         throw err;
       });
   }
-  onPelouse() {
-    this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
+  async onGradin(a) {
+    await this.setState({ grad: !this.state.grad, show: !this.state.show, side: a });
+   }
+  async onPelouse() {
+    await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show , side: 'pelouse'});
   }
-  onGradin() {
-    this.setState({ grad: !this.state.grad, show: !this.state.show });
-    console.log(this.state.grad);
-  }
+
   pikerHandler(item, index) {
-    console.log(item);
     switch (item) {
       case "8000":
-        this.filterByCategory("league 1");
+        this.filterByCategory("League1");
         break;
       case "7000":
-        this.filterByCategory("cup");
+        this.filterByCategory("Cup");
         break;
       default:
         this.filterByCategory("all");
     }
   }
   pikerHandler2(item1, index) {
-    console.log(item1);
     switch (item1) {
       case "a":
         this.filterByPlace("stade Tayeb Mhiri");
@@ -76,13 +79,15 @@ export default class Events extends Component {
     }
   }
   filterByCategory(category) {
+    console.log(category);
     if (category === "all") {
       this.setState({ filterevents: this.state.events });
     } else {
       const eventsFiltredByCategoryI = this.state.events.filter(
-        (event) => event.category === category
+        (event) =>  {return event.category === category}
       );
       this.setState({ filterevents: eventsFiltredByCategoryI });
+      console.log(eventsFiltredByCategoryI);
     }
   }
   filterByPlace(place) {
@@ -96,9 +101,20 @@ export default class Events extends Component {
     }
   }
   onClose = () => this.setState({ modalVisible: false });
-  book() {
-    this.setState({ toggle: !this.state.toggle, show: !this.state.show });
-    // this.props.navigation.navigate("Seats");
+  book(eventid) {
+    this.setState({id: eventid})
+    if(window.localStorage.getItem('token') === null){
+      Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'please signin or create an account',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }else{
+     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
+   }
+ 
   }
   hideModal() {
     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
@@ -111,27 +127,29 @@ export default class Events extends Component {
   }
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View key={key} className="eventDiv">
-        <Card>
-          <Card.Title>{event.category}</Card.Title>
+      <View key={key} className="eventDiv" >
+        <Card containerStyle={styles.card}>
+          <Card.Title style={{fontSize:40}}>{event.category}</Card.Title>
           <Card.Divider />
           <Card.Image source={{ uri: event.image }} />
-          <Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>
             {event.homeTeam} VS {event.awayTeam}
           </Text>
-          <Text>{event.place}</Text>
-          <Text>{event.date}</Text>
-          <Text>{event.description}</Text>
-          <Text>{event.category}</Text>
-          <Text>{event.price}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.place}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.date}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.description}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.category}</Text>
+          <Text style={{textAlign: 'center', fontSize:20}}>{event.price} DT</Text>
           <Button
-            onPress={this.book}
-            icon={<Icon color="#ffffff" />}
+            onPress={()=>{this.book(event.id)}}
+            color="#cce6d4"
             buttonStyle={{
               borderRadius: 0,
               marginLeft: 0,
               marginRight: 0,
               marginBottom: 0,
+              backgroundColor: "#085720",
+              shadowRadius: 10
             }}
             title="GET TICKET"
           />
@@ -144,7 +162,8 @@ export default class Events extends Component {
         {this.state.toggle && (
           <View>
             {" "}
-            <Picker onValueChange={this.pikerHandler}>
+            <TouchableOpacity style={styles.picker}>
+            <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
               <Picker.Item label="All Categories" value="0"></Picker.Item>
               <Picker.Item label="League 1" value="8000"></Picker.Item>
               <Picker.Item label="Cup" value="7000"></Picker.Item>
@@ -154,6 +173,7 @@ export default class Events extends Component {
               <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
               <Picker.Item label="stade Rades" value="b"></Picker.Item>
             </Picker>
+            </TouchableOpacity>
             {eventsD}
           </View>
         )}
@@ -175,7 +195,7 @@ export default class Events extends Component {
             }}
           >
             <Fragment>
-              <Button title="gradin" onPress={this.onGradin}></Button>
+              <Button title="gradin" onPress={()=>{this.onGradin('gradin')}}></Button>
               <Button title="pelouse" onPress={this.onPelouse}></Button>
               <Text onPress={this.hideModal}>Close</Text>
             </Fragment>
@@ -220,7 +240,7 @@ export default class Events extends Component {
             }}
           >
             <Fragment>
-              <Seats />
+              <Seats event={this.state.id} side={this.state.side} grad={this.state.grad} />
               <Text onPress={this.hideModal3}>Close</Text>
             </Fragment>
           </Overlay>
@@ -229,3 +249,12 @@ export default class Events extends Component {
     );
   }
 };
+
+const styles = StyleSheet.create({
+  picker: {top:10,alignItems: 'left', justifyContent: "space-around"},
+  item: { textAlign: "center"},
+  card: {backgroundColor: "##008000", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
+});
+
+
+
