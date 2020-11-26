@@ -6,7 +6,7 @@ import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
 import Swal from 'sweetalert2';
 import axios from "axios";
-
+import ads from '../../assets/ads.gif'
 
 export default class Events extends Component {
   constructor(props) {
@@ -23,7 +23,8 @@ export default class Events extends Component {
       show: true,
       side: '',
       intro: [],
-      current: ''
+      current: '',
+      upload: true
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
@@ -41,24 +42,10 @@ export default class Events extends Component {
     await axios.get("http://localhost:5000/events")
       .then((res) => {
         this.setState({ events: res.data ,filterevents: res.data});
-        console.log(this.state)
       })
       .catch((err) => {
         throw err;
       });
-    await axios.get('http://localhost:5000/users/intro')
-    .then(res=>{
-      this.setState({intro: res.data, current: res.data[0].picture})
-      console.log(res.data)
-    })
-    let i =0;
-    setInterval(()=>{
-        this.setState({current: this.state.intro[i].picture})
-        i++
-        if(i === this.state.intro.length){
-          i =0
-        }
-    },2000)
   }
   async onGradin(a) {
     await this.setState({ grad: !this.state.grad, show: !this.state.show, side: a });
@@ -149,7 +136,7 @@ export default class Events extends Component {
             
           </Text>
           <Text style={{textAlign: 'center', fontSize:10, position: "relative", left: -70, top: 10, color: 'grey'}}>{event.date} •</Text>
-          <Text style={{textAlign: 'center', fontSize:15, marginLeft: 250,position: "relative", top: -20, left:20, shadowRadius:1, width:70, borderRadius:10}}>{event.price} DT</Text>
+          <Text style={{textAlign: 'center', fontSize:15, marginLeft: 250,position: "relative", top: -20, left:20, shadowRadius:1, width:70, borderRadius:10, borderWidth:1}}>{event.price} DT</Text>
           <Text
             onPress={()=>{this.book(event.id)}}
             style={{
@@ -158,6 +145,8 @@ export default class Events extends Component {
               marginRight: 0,
               marginBottom: 30,
               shadowRadius: 1,
+              borderWidth: 1,
+              borderColor: 'green',
               width: 70,
               height:30,
               top: -30,
@@ -188,7 +177,7 @@ export default class Events extends Component {
                <Picker.Item label="stade Rades" value="b"></Picker.Item>
              </Picker>
             </TouchableOpacity> */}
-            <Card.Image source={{ uri: this.state.current }} style={{height: 150, marginTop: 5}}/>
+            <Card.Image source={{ uri: ads }} style={{height: 150, marginTop: 5, width: "100%"}}/>
             {eventsD}
            </View> 
         )}
@@ -207,12 +196,13 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
+              borderColor: 'green'
             }}
           >
             <Fragment>
-              <Button title="gradin" onPress={()=>{this.onGradin('gradin')}}></Button>
-              <Button title="pelouse" onPress={this.onPelouse}></Button>
-              <Text onPress={this.hideModal}>Close</Text>
+              <Text onPress={()=>{this.onGradin('gradin')}} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Gradin</Text>
+              <Text onPress={this.onPelouse} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Pelouse</Text>
+              <Text onPress={this.hideModal} style={{position:'relative', left: 135, top: -75}}>X</Text>
             </Fragment>
           </Overlay>
         )}
@@ -222,7 +212,7 @@ export default class Events extends Component {
             onClose={this.onClose}
             closeOnTouchOutside
             animationType="zoomIn"
-            containerStyle={{ backgroundColor: "rgba(220, 220, 220, 0.78)" }}
+            containerStyle={{ backgroundColor: "rgba(220, 220, 220, 0.1)" }}
             childrenWrapperStyle={{ backgroundColor: "#fff" }}
             animationDuration={500}
             style={{
@@ -230,11 +220,12 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
+              borderColor: 'green'
             }}
           >
             <Fragment>
               <Seats />
-              <Text onPress={this.hideModal2}>Close</Text>
+              <Text onPress={this.hideModal2}>Go back</Text>
             </Fragment>
           </Overlay>
         )}
@@ -252,11 +243,12 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
+              borderColor: 'green'
             }}
           >
             <Fragment>
               <Seats event={this.state.id} side={this.state.side} grad={this.state.grad} />
-              <Text onPress={this.hideModal3}>Close</Text>
+              <Text onPress={this.hideModal3}>Go back</Text>
             </Fragment>
           </Overlay>
         )}

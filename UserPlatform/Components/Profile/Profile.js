@@ -7,6 +7,11 @@ import History from "../History/History";
 import Axios from "axios";
 import store from "../../store.js";
 import Uploadimage from "../Uploadimage/Uploadimage";
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default class Profile extends Component {
   constructor(props) {
@@ -21,9 +26,12 @@ export default class Profile extends Component {
       hist: true,
       phone: "",
       imageUp: "",
-      image: ''
+      image: '',
+      showUpdate: false
     };
     this.goCloudy = this.goCloudy.bind(this);
+
+    this.updateProfile = this.updateProfile.bind(this)
   }
   componentDidMount() {
     const data = store.getState();
@@ -58,15 +66,15 @@ export default class Profile extends Component {
     window.localStorage.removeItem("token");
     window.location.reload(true);
   }
- async goCloudy(e) {
-      console.log(e.target.files)
+  async goCloudy(e) {
+    console.log(e.target.files)
     const file = e.target.files[0];
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "angular_cloudinary");
     data.append("cloud_name", "codexmaker");
     // sending the image to cloudinary
-   await Axios.post(
+    await Axios.post(
       "https://api.cloudinary.com/v1_1/codexmaker/image/upload",
       this.state.image
     ).then((res) => {
@@ -74,6 +82,9 @@ export default class Profile extends Component {
       this.setState({ image: res.data.url });
       // sending th image and saving it to the database
     });
+  }
+  updateProfile() {
+    this.setState({ showUpdate: !this.state.showUpdate })
   }
   render() {
     const { user } = this.state;
@@ -90,25 +101,25 @@ export default class Profile extends Component {
             source={{
               uri: this.state.user.img
             }}>
-            <Accessory style={{height: 15, width:15}}/>
+            <Accessory style={{ height: 15, width: 15 }} onPress={() => { this.updateProfile(), this.props.appenUpdate() }} />
           </Avatar>
-          <View style={{backgroundColor: 'grey', height: 1, width: '100%', opacity: 0.3}}></View>
-          {this.state.hist && this.state.slide && (
+          <View style={{ backgroundColor: 'grey', height: 1, width: '100%', opacity: 0.3 }}></View>
+          {this.state.hist && this.state.slide && !this.state.showUpdate && (
             <View>
               <ListItem bottomDivider>
-                <Icon />
+                <AntDesign name="user" size={24} color="black" />
                 <ListItem.Content>
                   <ListItem.Title> {user.firstName}</ListItem.Title>
                 </ListItem.Content>
               </ListItem>
               <ListItem bottomDivider>
-                <Icon />
+                <AntDesign name="user" size={24} color="black" />
                 <ListItem.Content>
                   <ListItem.Title> {user.lastName}</ListItem.Title>
                 </ListItem.Content>
               </ListItem>
               <ListItem bottomDivider>
-                <Icon />
+                <Entypo name="sports-club" size={24} color="black" />
                 <ListItem.Content>
                   <ListItem.Title> Mkachakh</ListItem.Title>
                 </ListItem.Content>
@@ -119,19 +130,11 @@ export default class Profile extends Component {
                   this.getHistory();
                 }}
               >
-                <Icon />
+                <FontAwesome name="history" size={24} color="black" />
                 <ListItem.Content>
                   <ListItem.Title> History</ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron />
-              </ListItem>
-              <ListItem bottomDivider>
-                {/* <Icon name="home" /> */}
-                <ListItem.Content>
-                  {/* <ListItem.Title>Update profile image</ListItem.Title> */}
-                  <Uploadimage imageChange={(img)=>{this.setState({image: img})}}/>
-                </ListItem.Content>
-                <ListItem.Chevron bottomDivider />
               </ListItem>
               <ListItem
                 bottomDivider
@@ -139,7 +142,7 @@ export default class Profile extends Component {
                   this.logOut();
                 }}
               >
-                {/* <Icon name="key" /> */}
+                <Ionicons name="md-lock" size={24} color="black" onPress={() => this.props.navigation.navigate(route)} />
                 <ListItem.Content>
                   <ListItem.Title>Logout</ListItem.Title>
                 </ListItem.Content>
@@ -147,7 +150,8 @@ export default class Profile extends Component {
               </ListItem>
             </View>
           )}
-         
+          {this.state.showUpdate && <Uploadimage imageChange={(img) => { this.setState({ image: img }) }} />}
+              {!this.state.hist && <History /> }
         </View>
       </View>
     );
