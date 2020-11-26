@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Profile from '../Profile/Profile.js';
 import Events from '../Events/Events.js'
-
+import store from "../../store.js";
+import Axios from 'axios'
 
 
 export default class User extends Component {
@@ -15,16 +16,35 @@ export default class User extends Component {
                 img: 'url'
             },
             show: true,
+            update: false
         }
     }
+  async  componentDidMount() {
+        const data = store.getState();
+        if (data.auth.token !== null) {
+          Axios.post("http://localhost:5000/users/getuser", {
+            phone: data.auth.phone,
+          }).then((user) => {
+            this.setState({
+              user: {
+                firstName: user.data[0].firstName,
+                lastName: user.data[0].lastName,
+                img: user.data[0].profileImage,
+              },
+            });
+          });
+        } else {
+          window.location.reload(true);
+        }
+      }
 
     render() {
         const { user } = this.state
 
         return (
             <View>
-                <Profile toggle={()=>{this.setState({show: ! this.state.show})}}/>
-              {this.state.show && <Events /> }  
+                <Profile toggle={(e)=>{this.setState({show: ! this.state.show})}} appenUpdate={()=>{this.setState({update: !this.state.update})}}/>
+              {this.state.show && !this.state.update && <Events events={this.props.events}/> }  
             </View>
         )
     }

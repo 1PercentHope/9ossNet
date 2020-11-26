@@ -16,6 +16,7 @@ export default class SignUn extends Component {
             firstName: '',
             lastName: '',
             password: '',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg'
 
 
         };
@@ -23,7 +24,7 @@ export default class SignUn extends Component {
         this.onSignUp = this.onSignUp.bind(this);
     }
     onSignUp() {
-        Axios.post('http://localhost:5000/users/verify', { firstName: this.state.firstName, phoneNumber: this.state.Phone })
+        Axios.post('http://localhost:5000/users/verify', { profileImage: this.state.image,firstName: this.state.firstName, phoneNumber: this.state.Phone })
         Swal.fire({
             title: 'Put Your Verification Code Please',
             input: 'text',
@@ -34,7 +35,6 @@ export default class SignUn extends Component {
             confirmButtonText: 'Verify',
             showLoaderOnConfirm: true,
             preConfirm: (code) => {
-                console.log(code)
                 Axios.post('http://localhost:5000/users/signup', {
                     firstName: this.state.firstName,
                     lastName: this.state.lastName,
