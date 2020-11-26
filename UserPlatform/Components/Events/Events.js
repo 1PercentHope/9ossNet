@@ -22,6 +22,8 @@ export default class Events extends Component {
       pelouse: true,
       show: true,
       side: '',
+      intro: [],
+      current: ''
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
@@ -44,6 +46,19 @@ export default class Events extends Component {
       .catch((err) => {
         throw err;
       });
+    await axios.get('http://localhost:5000/users/intro')
+    .then(res=>{
+      this.setState({intro: res.data, current: res.data[0].picture})
+      console.log(res.data)
+    })
+    let i =0;
+    setInterval(()=>{
+        this.setState({current: this.state.intro[i].picture})
+        i++
+        if(i === this.state.intro.length){
+          i =0
+        }
+    },2000)
   }
   async onGradin(a) {
     await this.setState({ grad: !this.state.grad, show: !this.state.show, side: a });
@@ -127,7 +142,7 @@ export default class Events extends Component {
   }
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View key={key} className="eventDiv"  style={{height: 270}}>
+      <View key={key} className="eventDiv"  style={{height: 270, marginTop: 5}}>
           <Card.Image source={{ uri: event.image }} style={{height: 200}}/>
           <Text style={{textAlign: 'center', fontSize:18, position: 'relative', left: -61, top:10}}>
             {event.homeTeam} vs {event.awayTeam}
@@ -159,7 +174,7 @@ export default class Events extends Component {
 
     return (
       <View>
-        {/* {this.state.toggle && ( */}
+        {this.state.toggle && (
           <View> 
              {/* <TouchableOpacity style={styles.picker}>
              <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
@@ -173,10 +188,10 @@ export default class Events extends Component {
                <Picker.Item label="stade Rades" value="b"></Picker.Item>
              </Picker>
             </TouchableOpacity> */}
-            <View style={{height: 200}}>adds are here</View>
+            <Card.Image source={{ uri: this.state.current }} style={{height: 150, marginTop: 5}}/>
             {eventsD}
            </View> 
-        {/* )} */}
+        )}
         {/* Payment/Log in Pop Up */}
         {!this.state.toggle && !this.state.show && (
           <Overlay

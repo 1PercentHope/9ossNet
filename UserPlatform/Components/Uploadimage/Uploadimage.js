@@ -10,6 +10,7 @@ export default class Uploadimage extends Component {
     this.state = {
       image: {},
       status: "",
+      up: true
     };
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
     this.handleSubmitFile = this.handleSubmitFile.bind(this);
@@ -23,6 +24,9 @@ export default class Uploadimage extends Component {
     this.setState({ image: data });
     console.log(data);
     console.log(file);
+    this.setState({
+      up: !this.state.up
+    })
   }
 
   handleSubmitFile(e) {
@@ -52,17 +56,18 @@ export default class Uploadimage extends Component {
     return (
       <View>
         <Card>
+          <Text>Update Profile Picture</Text>
           <form onSubmit={this.handleSubmitFile} className="form">
-            <input
+          {this.state.up && <input
               id="fileInput"
               type="file"
               name="image"
               onChange={this.handleFileInputChange}
               className="form-input"
-            />
-            <button className="btn" type="submit">
+            /> }
+           {!this.state.up &&  <View><button className="btn" type="submit">
               Submit
-            </button>
+            </button> </View>} 
           </form>
         </Card>
       </View>

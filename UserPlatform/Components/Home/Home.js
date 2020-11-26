@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View } from "react-native";
-import { Icon, Header } from "react-native-elements";
+import { Image, View } from "react-native";
+import { Icon, Header, Avatar } from "react-native-elements";
 import Events from "../Events/Events.js";
-
+import logo from '../../assets/signature.png'
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -26,12 +26,17 @@ export default class Home extends Component {
           backgroundImage={require("../../assets/header.jpg")}
           containerStyle={{ height: 60 }}
           leftComponent={
-            <Icon
-              color="white"
-              name="home"
-              // title='Home'
-              onPress={() => this.props.navigation.navigate("Home")}
-            ></Icon>
+            <Avatar
+            size="large"
+            rounded
+            source={{
+              uri: logo
+            }}
+            avatarStyle={{
+              marginTop: 7
+            }}
+          />
+          
           }
           // centerComponent={{ text: "9ossNet", style: { color: "#fff" } }}
           rightComponent={

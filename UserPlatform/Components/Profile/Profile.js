@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header } from "react-native-elements";
-import { ListItem, Avatar } from "react-native-elements";
+import { ListItem, Avatar, Accessory } from "react-native-elements";
 import History from "../History/History";
 import Axios from "axios";
 import store from "../../store.js";
@@ -85,12 +85,14 @@ export default class Profile extends Component {
             onPress={() => {
               this.showProfile(), this.props.toggle();
             }}
-            size="large"
+            size="medium"
             rounded
             source={{
-              uri: this.state.image
-            }}
-          />
+              uri: this.state.user.img
+            }}>
+            <Accessory style={{height: 15, width:15}}/>
+          </Avatar>
+          <View style={{backgroundColor: 'grey', height: 1, width: '100%', opacity: 0.3}}></View>
           {this.state.hist && this.state.slide && (
             <View>
               <ListItem bottomDivider>
@@ -124,9 +126,9 @@ export default class Profile extends Component {
                 <ListItem.Chevron />
               </ListItem>
               <ListItem bottomDivider>
-                <Icon name="home" />
+                {/* <Icon name="home" /> */}
                 <ListItem.Content>
-                  <ListItem.Title>Update profile image</ListItem.Title>
+                  {/* <ListItem.Title>Update profile image</ListItem.Title> */}
                   <Uploadimage imageChange={(img)=>{this.setState({image: img})}}/>
                 </ListItem.Content>
                 <ListItem.Chevron bottomDivider />
@@ -137,7 +139,7 @@ export default class Profile extends Component {
                   this.logOut();
                 }}
               >
-                <Icon name="key" />
+                {/* <Icon name="key" /> */}
                 <ListItem.Content>
                   <ListItem.Title>Logout</ListItem.Title>
                 </ListItem.Content>
