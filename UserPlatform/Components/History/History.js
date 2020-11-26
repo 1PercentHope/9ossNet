@@ -17,10 +17,12 @@ export default class History extends Component {
 
     }
     componentDidMount() {
+        console.log('starting history')
         const data = store.getState()
         axios
-            .post("http://localhost:5000/purchase/history")
+            .post("http://localhost:5000/purchase/history", {numberPhone: data.auth.phone})
             .then((res) => {
+                console.log(res.data)
                 this.setState({ history: res.data });
             })
             .catch((err) => {
@@ -36,19 +38,13 @@ export default class History extends Component {
             <View>
                 {this.state.history.map(purchase => {
                     return (
-                        <View key={purchase.id}>
-                            <Card>
-                                <Card.Title >Purchase</Card.Title>
+                        <View key={purchase.id} style={{height: '500'}}>
+                            <Card style={{height: '500'}}>
+                                <Card.Title style={{textAlign: "center", fontSize: 20, fontWeight: 'bold'}}>Purchase</Card.Title>
                                 <Card.Divider />
-                                <Card.Image source={{ uri: purchase.code }} itemStyle={{widht: '20'}} />
-                                <Text >{purchase.date}</Text>
-                                <Text >{purchase.ammount} DT</Text>
-                                {/* <PricingCard
-                                color="#4f9deb"
-                                title="Purchased"
-                                price={purchase.price}
-                                info={[purchase.date]}
-                            /> */}
+                                <Card.Image source={{ uri: purchase.code }} itemStyle={{widht: '500', height: '500'}} />
+                                <Text style={{textAlign: "center", fontSize: 20, fontWeight: 'bold'}}>{purchase.date}</Text>
+                                <Text style={{textAlign: "center", fontSize: 20, fontWeight: 'bold'}}>{purchase.ammount} DT</Text>
                             </Card>
                         </View>
                     )

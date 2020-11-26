@@ -24,13 +24,6 @@ class SignIn extends Component {
     setTimeout(()=>{
       const data = store.getState()
       if (data.auth.token) {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Welcome to 9ossNet',
-          showConfirmButton: false,
-          timer: 1500,
-        });
         this.props.navigation.navigate("User");
       } else {
         Swal.fire({

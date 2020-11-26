@@ -5,6 +5,7 @@ import { Input, Card, Button, TextInput } from "react-native-elements";
 import Table from "react-native-simple-table";
 import Swal from "sweetalert2";
 import store from "../../store.js";
+import Purchase from '../Purchase/Purchase.js'
 
 export default class Seats extends Component {
   constructor(props) {
@@ -13,6 +14,10 @@ export default class Seats extends Component {
       side: this.props.side,
       seatNumber: "",
       seatsData: [],
+      toggle: true,
+      event: '',
+      side: '',
+      numberPhone: ''
     };
   }
   async componentDidMount() {
@@ -25,42 +30,25 @@ export default class Seats extends Component {
         return seat.type === SeatSide;
       });
       this.setState({ seatsData: Seats });
-      console.log(seats.data);
     });
   }
   purchase(seat) {
-    this.setState({ seatNumber: seat });
     const data = store.getState();
-    const { event, side } = this.props;
-    Axios.post("http://localhost:5000/purchase/pay", {
-      price: "10",
-      seatNumber: seat,
-      eventid: event,
-      type: side,
-      numberPhone: data.auth.phone,
-    }).then((res) => {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your Qr Code",
-        showConfirmButton: true,
-        html: "<img src='" + res.data.src + "' style='width:150px;'>",
-        content: true,
-      });
-    });
+    this.setState({ seatNumber: seat , event: this.props.event, side: this.props.side, numberPhone: data.auth.phone, toggle: !this.state.toggle});
   }
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button
+      <Text
+      style={{borderWidth:1,borderRadius:20, width: 35, height:35, textAlign: 'center', textAlignVertical: "auto", backgroundColor: seat.availability, margin: 3, color: 'white'}}
         key={seat.Number}
-        title={seat.Number}
         onPress={() => {
           this.purchase(seat.Number);
         }}
-      ></Button>
+      >{seat.Number}</Text>
     ));
     return (
-      <View
+      <View>
+     {this.state.toggle && <View
         style={{
           flex: 1,
           flexDirection: "row",
@@ -76,6 +64,8 @@ export default class Seats extends Component {
         }}
       >
         {seatsButt}
+      </View> }
+      {!this.state.toggle && <Purchase  numberPhone={this.state.numberPhone} side={this.state.side} event={this.state.event} seatNumber={this.state.seatNumber}/> } 
       </View>
     );
   }
