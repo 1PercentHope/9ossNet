@@ -127,56 +127,56 @@ export default class Events extends Component {
   }
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View key={key} className="eventDiv" >
-        <Card containerStyle={styles.card}>
-          <Card.Title style={{fontSize:40}}>{event.category}</Card.Title>
-          <Card.Divider />
-          <Card.Image source={{ uri: event.image }} />
-          <Text style={{textAlign: 'center', fontSize:20}}>
-            {event.homeTeam} VS {event.awayTeam}
+      <View key={key} className="eventDiv"  style={{height: 270}}>
+          <Card.Image source={{ uri: event.image }} style={{height: 200}}/>
+          <Text style={{textAlign: 'center', fontSize:18, position: 'relative', left: -61, top:10}}>
+            {event.homeTeam} vs {event.awayTeam}
+            
           </Text>
-          <Text style={{textAlign: 'center', fontSize:20}}>{event.place}</Text>
-          <Text style={{textAlign: 'center', fontSize:20}}>{event.date}</Text>
-          <Text style={{textAlign: 'center', fontSize:20}}>{event.description}</Text>
-          <Text style={{textAlign: 'center', fontSize:20}}>{event.category}</Text>
-          <Text style={{textAlign: 'center', fontSize:20}}>{event.price} DT</Text>
-          <Button
+          <Text style={{textAlign: 'center', fontSize:10, position: "relative", left: -70, top: 10, color: 'grey'}}>{event.date} •</Text>
+          <Text style={{textAlign: 'center', fontSize:15, marginLeft: 250,position: "relative", top: -20, left:20, shadowRadius:1, width:70, borderRadius:10}}>{event.price} DT</Text>
+          <Text
             onPress={()=>{this.book(event.id)}}
-            color="#cce6d4"
-            buttonStyle={{
+            style={{
               borderRadius: 0,
-              marginLeft: 0,
+              marginLeft: 10,
               marginRight: 0,
-              marginBottom: 0,
-              backgroundColor: "#085720",
-              shadowRadius: 10
-            }}
-            title="GET TICKET"
-          />
-        </Card>
+              marginBottom: 30,
+              shadowRadius: 1,
+              width: 70,
+              height:30,
+              top: -30,
+              zIndex: 10,
+              textAlign: 'center',
+              position: 'relative',
+              top: -40
+            }}>
+            Book
+            </Text>
+          
       </View>
     ));
 
     return (
       <View>
-        {this.state.toggle && (
-          <View>
-            {" "}
-            <TouchableOpacity style={styles.picker}>
-            <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
-              <Picker.Item label="All Categories" value="0"></Picker.Item>
-              <Picker.Item label="League 1" value="8000"></Picker.Item>
-              <Picker.Item label="Cup" value="7000"></Picker.Item>
-            </Picker>
-            <Picker onValueChange={this.pikerHandler2}>
+        {/* {this.state.toggle && ( */}
+          <View> 
+             {/* <TouchableOpacity style={styles.picker}>
+             <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
+               <Picker.Item label="All Categories" value="0"></Picker.Item>
+               <Picker.Item label="League 1" value="8000"></Picker.Item>
+               <Picker.Item label="Cup" value="7000"></Picker.Item>
+             </Picker>
+             <Picker onValueChange={this.pikerHandler2}>
               <Picker.Item label="All stadiums" value="0"></Picker.Item>
-              <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
-              <Picker.Item label="stade Rades" value="b"></Picker.Item>
-            </Picker>
-            </TouchableOpacity>
+               <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
+               <Picker.Item label="stade Rades" value="b"></Picker.Item>
+             </Picker>
+            </TouchableOpacity> */}
+            <View style={{height: 200}}>adds are here</View>
             {eventsD}
-          </View>
-        )}
+           </View> 
+        {/* )} */}
         {/* Payment/Log in Pop Up */}
         {!this.state.toggle && !this.state.show && (
           <Overlay
@@ -253,7 +253,7 @@ export default class Events extends Component {
 const styles = StyleSheet.create({
   picker: {top:10,alignItems: 'left', justifyContent: "space-around"},
   item: { textAlign: "center"},
-  card: {backgroundColor: "##008000", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
+  card: {backgroundColor: "white", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
 });
 
 
