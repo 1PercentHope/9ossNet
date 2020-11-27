@@ -142,7 +142,7 @@ export default class Events extends Component {
           <Text style={{textAlign: 'center', fontSize:20}}>{event.price} DT</Text>
           <Button
             onPress={()=>{this.book(event.id)}}
-            color="#cce6d4"
+            color="black"
             buttonStyle={{
               borderRadius: 0,
               marginLeft: 0,
