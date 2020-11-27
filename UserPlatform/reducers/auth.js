@@ -4,7 +4,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
   } from "../actions/types";
-  
+
   const initialState = {
     token: window.localStorage.getItem("token"),
     isAuthenticated: null,
