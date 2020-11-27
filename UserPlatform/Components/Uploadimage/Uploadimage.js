@@ -38,19 +38,19 @@ export default class Uploadimage extends Component {
       this.state.image
     ).then((res) => {
       console.log(res.data.url);
-      this.props.imageChange(res.data.url);
-      Axios.post("http://localhost:5000/users/update/image", {
-        image: res.data.url,
-        phone: storedData.auth.phone,
-      })
-        .then((res) => {
-          console.log("image updated!");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    //   this.props.imageChange(res.data.url);
+    //   Axios.post("http://localhost:5000/users/update/image", {
+    //     image: res.data.url,
+    //     phone: storedData.auth.phone,
+    //   })
+    //     .then((res) => {
+    //       console.log("image updated!");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
     });
-    this.setState({ status: "shown" });
+    // this.setState({ status: "shown" });
   }
   render() {
     return (

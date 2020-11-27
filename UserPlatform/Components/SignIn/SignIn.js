@@ -70,7 +70,7 @@ class SignIn extends Component {
           <Text>
             Or{" "}
             <Text onPress={() => this.props.navigation.navigate("SignUp")}>
-              register here
+              register <Text style={{borderBottomColor: 'green', borderBottomWidth: 1}}>here</Text>
             </Text>{" "}
           </Text>
         </Card>
