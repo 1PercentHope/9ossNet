@@ -41,7 +41,8 @@ export default class SignUn extends Component {
                     password: this.state.Password,
                     phoneNumber: this.state.Phone,
                     email: this.state.email,
-                    code: code
+                    code: code,
+                    profileImage: this.state.image
                 })
                     .then(res => {
                         console.log(res.data)

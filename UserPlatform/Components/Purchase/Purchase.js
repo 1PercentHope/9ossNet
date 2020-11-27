@@ -44,7 +44,7 @@ export default class Purchase extends Component {
       <View>
         <Card>
           <Input
-            placeholder="Phone number"
+            placeholder="Email"
             leftIcon={<Icon name="user" size={24} color="black" />}
             onChange={(e) => {
               this.setState({ Phone: e.target.value });

@@ -165,23 +165,10 @@ export default class Events extends Component {
       <View>
         {this.state.toggle && (
           <View> 
-             {/* <TouchableOpacity style={styles.picker}>
-             <Picker onValueChange={this.pikerHandler} itemStyle={{backgroundcolor: 'red'}}>
-               <Picker.Item label="All Categories" value="0"></Picker.Item>
-               <Picker.Item label="League 1" value="8000"></Picker.Item>
-               <Picker.Item label="Cup" value="7000"></Picker.Item>
-             </Picker>
-             <Picker onValueChange={this.pikerHandler2}>
-              <Picker.Item label="All stadiums" value="0"></Picker.Item>
-               <Picker.Item label="stade Tayeb Mhiri" value="a"></Picker.Item>
-               <Picker.Item label="stade Rades" value="b"></Picker.Item>
-             </Picker>
-            </TouchableOpacity> */}
-            <Card.Image source={{ uri: ads }} style={{height: 150, marginTop: 5, width: "100%"}}/>
+            <Card.Image source={{ uri: ads }} style={{height: 100, marginTop: 5, width: "100%"}}/>
             {eventsD}
            </View> 
         )}
-        {/* Payment/Log in Pop Up */}
         {!this.state.toggle && !this.state.show && (
           <Overlay
             visible={this.state.modalVisible}

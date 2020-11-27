@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import Profile from '../Profile/Profile.js';
 import Events from '../Events/Events.js'
 import store from "../../store.js";
@@ -21,10 +21,10 @@ export default class User extends Component {
     }
   async  componentDidMount() {
         const data = store.getState();
-        if (data.auth.token !== null) {
+        if ((data.auth.token !== null) && (window.localStorage.phone)) {
           Axios.post("http://localhost:5000/users/getuser", {
-            phone: data.auth.phone,
-          }).then((user) => {
+            phone: window.localStorage.phone,
+          },{headers:{token: data.auth.token}}).then((user) => {
             this.setState({
               user: {
                 firstName: user.data[0].firstName,
@@ -34,6 +34,7 @@ export default class User extends Component {
             });
           });
         } else {
+          window.localStorage.removeItem('token')
           window.location.reload(true);
         }
       }
