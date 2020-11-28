@@ -35,10 +35,9 @@ export default class Profile extends Component {
   }
   componentDidMount() {
     const data = store.getState();
-    console.log(data.auth);
     if (data.auth.token !== null) {
       Axios.post("http://localhost:5000/users/getuser", {
-        phone: data.auth.phone,
+        phone: window.localStorage.phone,
       }).then((user) => {
         this.setState({
           user: {
