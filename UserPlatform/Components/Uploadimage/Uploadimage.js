@@ -29,19 +29,17 @@ export default class Uploadimage extends Component {
     })
   }
 
-  handleSubmitFile(e) {
+  async handleSubmitFile(e) {
     e.preventDefault();
     const storedData = store.getState();
-    console.log(storedData.auth.phone);
-    Axios.post(
+   await Axios.post(
       "https://api.cloudinary.com/v1_1/codexmaker/image/upload",
       this.state.image
     ).then((res) => {
-      console.log(res.data.url);
       this.props.imageChange(res.data.url);
       Axios.post("http://localhost:5000/users/update/image", {
         image: res.data.url,
-        phone: storedData.auth.phone,
+        phone: window.localStorage.phone,
       })
         .then((res) => {
           console.log("image updated!");
