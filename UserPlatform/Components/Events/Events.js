@@ -24,7 +24,7 @@ export default class Events extends Component {
       side: '',
       intro: [],
       current: '',
-      upload: true
+      upload: true,
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);

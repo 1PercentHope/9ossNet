@@ -81,7 +81,7 @@ export default class Home extends Component {
           <input type='text' placeholder="Search" onChange={this.filter} style={{height:40, width:320, top:10}}/>
           <MaterialIcons onPress={this.searchDone} name="youtube-searched-for" size={24} color="black" style={{position: 'relative', left:350, top: -20,height:30}}/>
         </View> }
-        <Events events={this.state.events}/>
+        <Events word={this.state.word}/>
       </View>
     );
   }
