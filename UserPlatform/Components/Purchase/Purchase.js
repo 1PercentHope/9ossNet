@@ -16,8 +16,9 @@ export default class Purchase extends Component {
 
     this.Onlogin = this.Onlogin.bind(this);
   }
-
-
+  componentDidMount(){
+    console.log(this.props)
+  }
   Onlogin() {
     console.log('ok')
     const { event, side , seatNumber} = this.props;

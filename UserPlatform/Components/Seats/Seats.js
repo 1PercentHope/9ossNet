@@ -25,10 +25,12 @@ export default class Seats extends Component {
   }
   async componentDidMount() {
     var SeatSide = this.props.side;
-    if (SeatSide !== "pelouse") {
-      SeatSide = "gradin";
-    }
-    await Axios.get("http://localhost:5000/seats").then((seats) => {
+    // console.log(this.props)
+    // if (SeatSide === undefined) {
+    //   SeatSide = "gradin";
+    //   this.setState({side: SeatSide})
+    // }
+    await Axios.post("http://localhost:5000/seats/seatid",{matchId: this.props.event, side : this.props.side}).then((seats) => {
       const Seats = seats.data.filter((seat) => {
         return seat.type === SeatSide;
       });

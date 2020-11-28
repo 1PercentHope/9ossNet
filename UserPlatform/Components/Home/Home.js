@@ -11,7 +11,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "lock",
+      account: "md-lock",
       route: "SignIn",
       events: [],
       view: false,

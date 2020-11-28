@@ -47,8 +47,8 @@ export default class Events extends Component {
         throw err;
       });
   }
-  async onGradin(a) {
-    await this.setState({ grad: !this.state.grad, show: !this.state.show, side: a });
+  async onGradin() {
+    await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show, side: 'gradin' });
    }
   async onPelouse() {
     await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show , side: 'pelouse'});
@@ -187,7 +187,7 @@ export default class Events extends Component {
             }}
           >
             <Fragment>
-              <Text onPress={()=>{this.onGradin('gradin')}} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Gradin</Text>
+              <Text onPress={this.onGradin} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Gradin</Text>
               <Text onPress={this.onPelouse} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Pelouse</Text>
               <Text onPress={this.hideModal} style={{position:'relative', left: 135, top: -75}}>X</Text>
             </Fragment>
