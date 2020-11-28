@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Button, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Header } from "react-native-elements";
+import { View } from "react-native";
 import { ListItem, Avatar, Accessory } from "react-native-elements";
 import History from "../History/History";
 import Axios from "axios";
