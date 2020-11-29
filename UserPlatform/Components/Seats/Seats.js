@@ -1,10 +1,12 @@
 import Axios from "axios";
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { Input, Card, Button, TextInput } from "react-native-elements";
 import Table from "react-native-simple-table";
 import Swal from "sweetalert2";
 import store from "../../store.js";
+import Purchase from '../Purchase/Purchase.js'
+import seats from '../../assets/Seats.png'
 
 export default class Seats extends Component {
   constructor(props) {
@@ -13,7 +15,13 @@ export default class Seats extends Component {
       side: this.props.side,
       seatNumber: "",
       seatsData: [],
+      toggle: true,
+      event: '',
+      side: '',
+      numberPhone: '',
+      showSeats: false,
     };
+    this.toggleMap = this.toggleMap.bind(this)
   }
   async componentDidMount() {
     var SeatSide = this.props.side;
@@ -25,57 +33,51 @@ export default class Seats extends Component {
         return seat.type === SeatSide;
       });
       this.setState({ seatsData: Seats });
-      console.log(seats.data);
     });
   }
-  purchase(seat) {
-    this.setState({ seatNumber: seat });
-    const data = store.getState();
-    const { event, side } = this.props;
-    Axios.post("http://localhost:5000/purchase/pay", {
-      price: "10",
-      seatNumber: seat,
-      eventid: event,
-      type: side,
-      numberPhone: data.auth.phone,
-    }).then((res) => {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your Qr Code",
-        showConfirmButton: true,
-        html: "<img src='" + res.data.src + "' style='width:150px;'>",
-        content: true,
-      });
-    });
+  purchase(seat, avail) {
+    if (avail === 'red') {
+      return
+    } else {
+      const data = store.getState();
+      this.setState({ seatNumber: seat, event: this.props.event, side: this.props.side, numberPhone: data.auth.phone, toggle: !this.state.toggle });
+    }
+  }
+  toggleMap() {
+    this.setState({ showSeats: !this.state.showSeats })
   }
   render() {
     const seatsButt = this.state.seatsData.map((seat) => (
-      <Button
+      <Text
+        style={{ borderWidth: 1, borderRadius: 20, width: 35, height: 35, textAlign: 'center', textAlignVertical: "auto", backgroundColor: seat.availability, margin: 3, color: 'white' }}
         key={seat.Number}
-        title={seat.Number}
         onPress={() => {
-          this.purchase(seat.Number);
+          this.purchase(seat.Number, seat.availability);
         }}
-      ></Button>
+      >{seat.Number}</Text>
     ));
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          flexWrap: "wrap",
-          position: "realtive",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "25%",
-          padding: 5,
-          borderWidth: 4,
-          borderTopLeftRadius: 18,
-          borderTopRightRadius: 18,
-        }}
-      >
-        {seatsButt}
+      <View>
+        {this.state.toggle && !this.state.showSeats && <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            flexWrap: "wrap",
+            position: "realtive",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "25%",
+            padding: 5,
+            borderWidth: 4,
+            borderTopLeftRadius: 18,
+            borderTopRightRadius: 18,
+          }}
+        >
+          {seatsButt}
+        </View>}
+        {!this.state.showSeats && this.state.toggle && <Text onPress={this.toggleMap} style={{ position: 'relative', top: -10, borderWidth: 1, borderColor: 'green', textAlign: 'center', marginLeft: 50, marginRight: 50 }}>Seats map</Text>}
+        {this.state.showSeats && <Card.Image source={{ uri: seats }} style={{ height: 300, width: 295, marginTop: 5 }} />}
+        {!this.state.toggle && <Purchase numberPhone={this.state.numberPhone} side={this.state.side} event={this.state.event} seatNumber={this.state.seatNumber} />}
       </View>
     );
   }

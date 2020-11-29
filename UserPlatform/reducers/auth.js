@@ -4,7 +4,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
   } from "../actions/types";
-  
+
   const initialState = {
     token: window.localStorage.getItem("token"),
     isAuthenticated: null,
@@ -15,7 +15,8 @@ import {
     const { type, payload } = action;
     switch (type) {
       case LOGIN_SUCCESS:
-        window.localStorage.setItem("token", JSON.stringify(payload.token));
+        window.localStorage.setItem("token",payload.token);
+        window.localStorage.setItem("phone",payload.phone);
         return {
           ...state,
           token: payload.token,

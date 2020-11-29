@@ -10,6 +10,7 @@ export default class Uploadimage extends Component {
     this.state = {
       image: {},
       status: "",
+      up: true
     };
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
     this.handleSubmitFile = this.handleSubmitFile.bind(this);
@@ -23,21 +24,22 @@ export default class Uploadimage extends Component {
     this.setState({ image: data });
     console.log(data);
     console.log(file);
+    this.setState({
+      up: !this.state.up
+    })
   }
 
-  handleSubmitFile(e) {
+  async handleSubmitFile(e) {
     e.preventDefault();
     const storedData = store.getState();
-    console.log(storedData.auth.phone);
-    Axios.post(
+   await Axios.post(
       "https://api.cloudinary.com/v1_1/codexmaker/image/upload",
       this.state.image
     ).then((res) => {
-      console.log(res.data.url);
       this.props.imageChange(res.data.url);
       Axios.post("http://localhost:5000/users/update/image", {
         image: res.data.url,
-        phone: storedData.auth.phone,
+        phone: window.localStorage.phone,
       })
         .then((res) => {
           console.log("image updated!");
@@ -52,17 +54,18 @@ export default class Uploadimage extends Component {
     return (
       <View>
         <Card>
+          <Text>Update Profile Picture</Text>
           <form onSubmit={this.handleSubmitFile} className="form">
-            <input
+          {this.state.up && <input
               id="fileInput"
               type="file"
               name="image"
               onChange={this.handleFileInputChange}
               className="form-input"
-            />
-            <button className="btn" type="submit">
+            /> }
+           {!this.state.up &&  <View><button className="btn" type="submit">
               Submit
-            </button>
+            </button> </View>} 
           </form>
         </Card>
       </View>

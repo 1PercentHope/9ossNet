@@ -16,6 +16,7 @@ class SignIn extends Component {
     };
 
     this.Onlogin = this.Onlogin.bind(this);
+    this.navigateTOSignUp=this.navigateTOSignUp.bind(this);
   }
 
 
@@ -24,13 +25,6 @@ class SignIn extends Component {
     setTimeout(()=>{
       const data = store.getState()
       if (data.auth.token) {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Welcome to 9ossNet',
-          showConfirmButton: false,
-          timer: 1500,
-        });
         this.props.navigation.navigate("User");
       } else {
         Swal.fire({
@@ -43,6 +37,9 @@ class SignIn extends Component {
     },500)
 
  
+  }
+  navigateTOSignUp(){
+    this.props.navigation.navigate("SignUp");
   }
   render() {
     return (
@@ -76,8 +73,8 @@ class SignIn extends Component {
             onPress={this.Onlogin} />
           <Text>
             Or{" "}
-            <Text onPress={() => this.props.navigation.navigate("SignUp")}>
-              register here
+            <Text onPress={this.navigateTOSignUp}>
+              register <Text style={{borderBottomColor: 'green', borderBottomWidth: 1}}>here</Text>
             </Text>{" "}
           </Text>
         </Card>
