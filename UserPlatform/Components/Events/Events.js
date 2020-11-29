@@ -92,7 +92,6 @@ export default class Events extends Component {
     }
   }
   filterByCategory(category) {
-    console.log(category);
     if (category === "all") {
       this.setState({ filterevents: this.state.events });
     } else {

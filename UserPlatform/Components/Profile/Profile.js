@@ -36,7 +36,7 @@ export default class Profile extends Component {
     if (data.auth.token !== null) {
       Axios.post("http://localhost:5000/users/getuser", {
         phone: window.localStorage.phone,
-      }).then((user) => {
+      },{headers:{authorized: window.localStorage.getItem('token')}}).then((user) => {
         this.setState({
           user: {
             firstName: user.data[0].firstName,
