@@ -159,7 +159,7 @@ export default class Profile extends Component {
               </ListItem>
             </View>
           )}
-          {this.state.showUpdate && <Uploadimage imageChange={(img) => { this.setState({ image: img }) }} />}
+          {this.state.showUpdate && <Uploadimage imageChange={(imag) => { this.setState({ user:{img: imag}}) }} />}
               {!this.state.hist && <History /> }
         </View>
       </View>

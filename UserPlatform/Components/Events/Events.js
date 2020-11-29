@@ -278,7 +278,7 @@ export default class Events extends Component {
           </Overlay>
         )}
        {!this.state.toggle && <View style={{position:'relative',top: -438, width:"70vw",left:'50%', transform: 'translate(-50%)', zIndex: 100, width: '100vw', backgroundColor: '#f2f2f2', height:'10vh',paddingTop:'5vh'}}>
-        <Text style={{textAlign:'center',width: '80vw', position:'relative',left:'50%', transform: 'translate(-50%)', fontSize:15}}>
+        <Text style={{textAlign:'center',width: '80vw', position:'relative',left:'50%', transform: 'translate(-50%)', fontSize:15, borderWidth: 1, borderColor: 'black', padding: 10}}>
           Please pick carefully your seat number and it's category, once the operation is done there will be no <Text style={{borderBottomWidth:2, borderBottomColor: 'green'}}>retrieve</Text> .
         </Text>
         <Text style={{width: '80vw', position:'relative',left:'50%', transform: 'translate(-50%)', fontSize:15, position:"relative", top:530, textAlign:'center'}}>Pelouse seats have extra fee of 10 dt</Text>
