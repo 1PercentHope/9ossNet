@@ -16,6 +16,7 @@ class SignIn extends Component {
     };
 
     this.Onlogin = this.Onlogin.bind(this);
+    this.navigateTOSignUp=this.navigateTOSignUp.bind(this);
   }
 
 
@@ -36,6 +37,9 @@ class SignIn extends Component {
     },500)
 
  
+  }
+  navigateTOSignUp(){
+    this.props.navigation.navigate("SignUp");
   }
   render() {
     return (
@@ -69,7 +73,7 @@ class SignIn extends Component {
             onPress={this.Onlogin} />
           <Text>
             Or{" "}
-            <Text onPress={() => this.props.navigation.navigate("SignUp")}>
+            <Text onPress={this.navigateTOSignUp}>
               register <Text style={{borderBottomColor: 'green', borderBottomWidth: 1}}>here</Text>
             </Text>{" "}
           </Text>

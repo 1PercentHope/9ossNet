@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Button, Image, View } from "react-native";
-import { Icon, Header, Avatar } from "react-native-elements";
+import { View } from "react-native";
+import { Header, Avatar } from "react-native-elements";
 import Events from "../Events/Events.js";
 import logo from '../../assets/signature.png'
 import { MaterialIcons } from '@expo/vector-icons';
