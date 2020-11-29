@@ -16,12 +16,13 @@ class SignIn extends Component {
     };
 
     this.Onlogin = this.Onlogin.bind(this);
+    this.navigateTOSignUp=this.navigateTOSignUp.bind(this);
   }
 
 
   Onlogin() {
     this.props.login(this.state.Phone, this.state.Password)
-    setTimeout(()=>{
+    setTimeout(() => {
       const data = store.getState()
       if (data.auth.token) {
         this.props.navigation.navigate("User");
@@ -33,9 +34,12 @@ class SignIn extends Component {
         });
         console.log("wrong phonenumber or password try again")
       }
-    },500)
+    }, 500)
 
- 
+
+  }
+  navigateTOSignUp(){
+    this.props.navigation.navigate("SignUp");
   }
   render() {
     return (
@@ -54,7 +58,6 @@ class SignIn extends Component {
             leftIcon={<Icon name="lock" size={24} color="black" />}
             onChange={(e) => {
               this.setState({ Password: e.target.value });
-              console.log(this.state.Password);
             }}
           />
           <Button title="Log in"
@@ -69,7 +72,7 @@ class SignIn extends Component {
             onPress={this.Onlogin} />
           <Text>
             Or{" "}
-            <Text onPress={() => this.props.navigation.navigate("SignUp")}>
+            <Text onPress={this.navigateTOSignUp}>
               register <Text style={{borderBottomColor: 'green', borderBottomWidth: 1}}>here</Text>
             </Text>{" "}
           </Text>

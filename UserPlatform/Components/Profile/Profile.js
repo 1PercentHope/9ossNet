@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Button, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Header } from "react-native-elements";
+import { View } from "react-native";
 import { ListItem, Avatar, Accessory } from "react-native-elements";
 import History from "../History/History";
 import Axios from "axios";
@@ -85,12 +83,18 @@ export default class Profile extends Component {
   updateProfile() {
     this.setState({ showUpdate: !this.state.showUpdate })
   }
+  loggingOut(){
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('phone');
+    window.location.reload(true)
+  }
   render() {
     const { user } = this.state;
 
     return (
       <View>
         <View>
+          <View style={{height: '7vh'}}>
           <Avatar
             onPress={() => {
               this.showProfile(), this.props.toggle();
@@ -102,6 +106,10 @@ export default class Profile extends Component {
             }}>
             <Accessory style={{ height: 15, width: 15 }} onPress={() => { this.updateProfile(), this.props.appenUpdate() }} />
           </Avatar>
+          <AntDesign name="lock" size={30} color="black" onPress={() => {this.loggingOut()}}
+          style={{position: 'relative', left:340, top:-35, height:'100%'}}
+          />
+          </View>
           <View style={{ backgroundColor: 'grey', height: 1, width: '100%', opacity: 0.3 }}></View>
           {this.state.hist && this.state.slide && !this.state.showUpdate && (
             <View>
@@ -149,7 +157,7 @@ export default class Profile extends Component {
               </ListItem>
             </View>
           )}
-          {this.state.showUpdate && <Uploadimage imageChange={(img) => { this.setState({ image: img }) }} />}
+          {this.state.showUpdate && <Uploadimage imageChange={(imag) => { this.setState({ user:{img: imag}}) }} />}
               {!this.state.hist && <History /> }
         </View>
       </View>

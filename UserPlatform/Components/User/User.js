@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { View } from 'react-native';
 import Profile from '../Profile/Profile.js';
 import Events from '../Events/Events.js'
 import store from "../../store.js";
@@ -10,11 +10,7 @@ export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                firstName: 'Skander',
-                lastName: 'Ben Romdhan',
-                img: 'url'
-            },
+           user:{},
             show: true,
             update: false
         }
