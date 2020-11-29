@@ -20,16 +20,12 @@ export default class Seats extends Component {
       side: '',
       numberPhone: '',
       showSeats: false,
+      price: ''
     };
     this.toggleMap = this.toggleMap.bind(this)
   }
   async componentDidMount() {
     var SeatSide = this.props.side;
-    // console.log(this.props)
-    // if (SeatSide === undefined) {
-    //   SeatSide = "gradin";
-    //   this.setState({side: SeatSide})
-    // }
     await Axios.post("http://localhost:5000/seats/seatid",{matchId: this.props.event, side : this.props.side}).then((seats) => {
       const Seats = seats.data.filter((seat) => {
         return seat.type === SeatSide;
@@ -42,7 +38,14 @@ export default class Seats extends Component {
       return
     } else {
       const data = store.getState();
-      this.setState({ seatNumber: seat, event: this.props.event, side: this.props.side, numberPhone: data.auth.phone, toggle: !this.state.toggle });
+      this.setState({ seatNumber: seat, event: this.props.event, side: this.props.side, numberPhone: data.auth.phone, toggle: !this.state.toggle});
+      if(this.props.side === 'pelouse'){
+        const newPrice = (Number(this.props.price) + 10) + ''
+        console.log(newPrice)
+        this.setState({price: newPrice})
+      }else{
+        this.setState({price: this.props.price})
+      }
     }
   }
   toggleMap() {
@@ -79,7 +82,7 @@ export default class Seats extends Component {
         </View>}
         {!this.state.showSeats && this.state.toggle && <Text onPress={this.toggleMap} style={{ position: 'relative', top: -10, borderWidth: 1, borderColor: 'green', textAlign: 'center', marginLeft: 50, marginRight: 50 }}>Seats map</Text>}
         {this.state.showSeats && <Card.Image source={{ uri: seats }} style={{ height: 300, width: 295, marginTop: 5 }} />}
-        {!this.state.toggle && <Purchase numberPhone={this.state.numberPhone} side={this.state.side} event={this.state.event} seatNumber={this.state.seatNumber} />}
+        {!this.state.toggle && <Purchase numberPhone={this.state.numberPhone} side={this.state.side} event={this.state.event} seatNumber={this.state.seatNumber} price={this.state.price}/>}
       </View>
     );
   }

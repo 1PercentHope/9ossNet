@@ -20,12 +20,10 @@ export default class Purchase extends Component {
     console.log(this.props)
   }
   Onlogin() {
-    console.log('ok')
-    const { event, side , seatNumber} = this.props;
+    const { event, side , seatNumber, price} = this.props;
     const numberPhone = window.localStorage.getItem('phone')
-    console.log(this.props)
     Axios.post("http://localhost:5000/purchase/pay", {
-      price: "10",
+      price: price,
       seatNumber: seatNumber,
       eventid: event,
       type: side,

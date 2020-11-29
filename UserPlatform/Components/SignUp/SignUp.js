@@ -47,7 +47,7 @@ export default class SignUn extends Component {
                     .then(res => {
                         console.log(res.data)
                         if (res.data.text === 'ok') {
-                            this.props.navigation.navigate('User')
+                            window.location.reload(true)
                         } else {
                             Swal.fire({
                                 icon: 'error',
