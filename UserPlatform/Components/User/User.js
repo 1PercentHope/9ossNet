@@ -10,7 +10,8 @@ export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           user:{},
+           user:{
+           },
             show: true,
             update: false
         }
@@ -18,15 +19,11 @@ export default class User extends Component {
   async  componentDidMount() {
         const data = store.getState();
         if ((data.auth.token !== null) && (window.localStorage.phone)) {
-          Axios.post("http://localhost:5000/users/getuser", {
+         await Axios.post("http://localhost:5000/users/getuser",  {
             phone: window.localStorage.phone,
-          },{headers:{token: data.auth.token}}).then((user) => {
+          },{headers:{token: window.localStorage.getItem('token')}}).then((user) => {
             this.setState({
-              user: {
-                firstName: user.data[0].firstName,
-                lastName: user.data[0].lastName,
-                img: user.data[0].profileImage,
-              },
+              user: user.data[0]
             });
           });
         } else {

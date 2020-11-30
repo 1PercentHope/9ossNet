@@ -28,7 +28,7 @@ export default class Purchase extends Component {
       eventid: event,
       type: side,
       numberPhone: numberPhone,
-    }).then((res) => {
+    },{headers:{token: window.localStorage.getItem('token')}}).then((res) => {
       console.log('start')
       Swal.fire({
         position: "top-end",
