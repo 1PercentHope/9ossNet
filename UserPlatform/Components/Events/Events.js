@@ -30,7 +30,8 @@ export default class Events extends Component {
       view: false,
       word: '',
       storedEvents: [],
-      price: ''
+      price: '',
+      color: "green"
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
@@ -114,7 +115,7 @@ export default class Events extends Component {
   }
   onClose = () => this.setState({ modalVisible: false });
   book(eventid,eventPrice) {
-    this.setState({ id: eventid })
+    this.setState({ id: eventid, color: 'white' })
     if (window.localStorage.getItem('token') === null) {
       Swal.fire({
         position: 'top-end',
@@ -126,6 +127,9 @@ export default class Events extends Component {
     } else {
       this.setState({ toggle: !this.state.toggle, show: !this.state.show, price: eventPrice });
     }
+    setTimeout(()=>{
+      this.setState({ color: 'green' })
+    },1000)
 
   }
   hideModal() {
@@ -175,14 +179,14 @@ export default class Events extends Component {
             marginBottom: 30,
             shadowRadius: 1,
             borderWidth: 1,
-            borderColor: 'green',
+            borderColor: this.state.color,
             width: 70,
             height: 30,
             top: -30,
             zIndex: 10,
             textAlign: 'center',
             position: 'relative',
-            top: -40
+            top: -40,
           }}>
           Book
             </Text>
