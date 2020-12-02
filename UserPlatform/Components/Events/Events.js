@@ -1,5 +1,10 @@
 import React, { Component, Fragment } from "react";
-import events from "../../dummy data/events.js";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import Carousel from 'react-elastic-carousel';
+
+
+import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
 import {
   Text,
   View,
@@ -7,6 +12,8 @@ import {
   StyleSheet,
   Picker,
   TouchableOpacity,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { Button, Card, ListItem, Icon } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
@@ -15,6 +22,15 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import ads from "../../assets/ads.gif";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+const items =  [
+  {id: 1, src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id: 2, src: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id: 3, src:"https://images.unsplash.com/photo-1570498839593-e565b39455fc?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+  {id:4,src:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Nnx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id :5,src:"https://images.unsplash.com/photo-1459865264687-595d652de67e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8N3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id:6,src:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHNvY2NlcnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500"}
+
+]
 
 export default class Events extends Component {
   constructor(props) {
@@ -193,7 +209,7 @@ export default class Events extends Component {
       <View
         key={key}
         className="eventDiv"
-        style={{ height: 270, marginTop: 5 }}
+        style={{ height: 270, marginTop: 5, top: 30 }}
       >
         <Card.Image source={{ uri: event.image }} style={{ height: 200 }} />
         <Text
@@ -201,8 +217,9 @@ export default class Events extends Component {
             textAlign: "center",
             fontSize: 18,
             position: "relative",
-            left: -61,
+            left: -20,
             top: 10,
+            textTransform: "uppercase",
           }}
         >
           {event.homeTeam} vs {event.awayTeam}
@@ -210,14 +227,16 @@ export default class Events extends Component {
         <Text
           style={{
             textAlign: "center",
-            fontSize: 10,
+            fontSize: 15,
             position: "relative",
-            left: -70,
+            left: -20,
             top: 10,
             color: "grey",
+            fontFamily: "Trebuchet MS ,sans-serif",
           }}
         >
-          {event.date} •
+          {event.date}
+          <Fontisto style={{ color: "black", marginLeft: 5 }} name="date" />
         </Text>
         <Text
           style={{
@@ -228,35 +247,50 @@ export default class Events extends Component {
             top: -20,
             left: 20,
             shadowRadius: 1,
-            width: 70,
+            width: 80,
             borderRadius: 10,
             borderWidth: 1,
+            backgroundColor: "#164D09",
+            color: "white",
+            fontFamily: "Trebuchet MS ,sans-serif",
           }}
         >
-          {event.price} DT
+          {event.price} TND
+          <FontAwesome5
+            style={{
+              marginLeft: 5,
+              color: "white",
+            }}
+            name={"coins"}
+            solid
+          />
         </Text>
         <Text
           onPress={() => {
             this.book(event.id, event.price);
           }}
           style={{
-            borderRadius: 0,
+            fontSize: 15,
+            borderRadius: 10,
             marginLeft: 10,
             marginRight: 0,
             marginBottom: 30,
             shadowRadius: 1,
             borderWidth: 1,
             borderColor: this.state.color,
-            width: 70,
-            height: 30,
+            width: 80,
+            // height: 30,
             top: -30,
             zIndex: 10,
             textAlign: "center",
             position: "relative",
             top: -40,
+            backgroundColor: "#164D09",
+            color: "white",
+            fontFamily: "Trebuchet MS ,sans-serif",
           }}
         >
-          Book
+          BOOK
         </Text>
       </View>
     ));
@@ -277,7 +311,13 @@ export default class Events extends Component {
             name="autorenew"
             size={30}
             color="black"
-            style={{ position: "relative", left: 340, width: "100%" }}
+            style={{
+              position: "relative",
+              left: 380,
+              width: "100%",
+              bottom: 30,
+              height: "50",
+            }}
             onPress={this.refrech}
           />
         )}
@@ -298,15 +338,23 @@ export default class Events extends Component {
             />
           </View>
         )}
+       
+{<Carousel>
+        {items.map(item => <Image
+         source={{uri:item.src}}
+         style={{ height: 150,  width: "200%" }}
+        />)}
+      </Carousel>}
         {this.state.toggle && (
           <View>
             <Card.Image
-              source={{ uri: ads }}
-              style={{ height: 100, marginTop: 5, width: "100%" }}
+              source={{ uri: "https://media.tenor.com/images/6d4698fe62f7e064bfef2e9083274606/tenor.gif" }}
+              style={{ height: 170, marginTop: 5, width: "100%" }}
             />
             {eventsD}
           </View>
         )}
+
         {!this.state.toggle && !this.state.show && (
           <Overlay
             visible={this.state.modalVisible}
