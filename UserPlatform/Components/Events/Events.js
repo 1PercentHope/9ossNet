@@ -1,12 +1,36 @@
 import React, { Component, Fragment } from "react";
-import events from "../../dummy data/events.js";
-import { Text, View, Image, StyleSheet, Picker, TouchableOpacity } from "react-native";
-import { Button, Card,ListItem, Icon  } from "react-native-elements";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import Carousel from 'react-elastic-carousel';
+
+
+import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Picker,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
+import { Button, Card, ListItem, Icon } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
 import Seats from "../Seats/Seats.js";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import axios from "axios";
-import ads from '../../assets/ads.gif'
+import ads from "../../assets/ads.gif";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+const items =  [
+  {id: 1, src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id: 2, src: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id: 3, src:"https://images.unsplash.com/photo-1570498839593-e565b39455fc?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+  {id:4,src:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Nnx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id :5,src:"https://images.unsplash.com/photo-1459865264687-595d652de67e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8N3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
+  {id:6,src:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHNvY2NlcnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500"}
+
+]
 
 export default class Events extends Component {
   constructor(props) {
@@ -21,10 +45,15 @@ export default class Events extends Component {
       grad: true,
       pelouse: true,
       show: true,
-      side: '',
+      side: "",
       intro: [],
-      current: '',
+      current: "",
       upload: true,
+      view: false,
+      word: "",
+      storedEvents: [],
+      price: "",
+      color: "green",
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.filterByPlace = this.filterByPlace.bind(this);
@@ -36,24 +65,44 @@ export default class Events extends Component {
     this.hideModal = this.hideModal.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
+    this.search = this.search.bind(this);
+    this.searchDone = this.searchDone.bind(this);
+    this.filter = this.filter.bind(this);
+    this.refrech = this.refrech.bind(this);
   }
- async componentDidMount() {
-
-    await axios.get("http://localhost:5000/events")
+  async componentDidMount() {
+    await axios
+      .get("http://localhost:5000/events")
       .then((res) => {
-        this.setState({ events: res.data ,filterevents: res.data});
+        this.setState({
+          events: res.data,
+          filterevents: res.data,
+          storedEvents: res.data,
+        });
       })
       .catch((err) => {
         throw err;
       });
   }
-  async onGradin(a) {
-    await this.setState({ grad: !this.state.grad, show: !this.state.show, side: a });
-   }
-  async onPelouse() {
-    await this.setState({ pelouse: !this.state.pelouse, show: !this.state.show , side: 'pelouse'});
+  async onGradin() {
+    await this.setState({
+      pelouse: !this.state.pelouse,
+      show: !this.state.show,
+      side: "gradin",
+    });
   }
-
+  async onPelouse() {
+    await this.setState({
+      pelouse: !this.state.pelouse,
+      show: !this.state.show,
+      side: "pelouse",
+    });
+  }
+  refrech() {
+    this.componentDidMount;
+    this.filterByPlace("all");
+    console.log("refreshing events");
+  }
   pikerHandler(item, index) {
     switch (item) {
       case "8000":
@@ -81,13 +130,12 @@ export default class Events extends Component {
     }
   }
   filterByCategory(category) {
-    console.log(category);
     if (category === "all") {
       this.setState({ filterevents: this.state.events });
     } else {
-      const eventsFiltredByCategoryI = this.state.events.filter(
-        (event) =>  {return event.category === category}
-      );
+      const eventsFiltredByCategoryI = this.state.events.filter((event) => {
+        return event.category === category;
+      });
       this.setState({ filterevents: eventsFiltredByCategoryI });
       console.log(eventsFiltredByCategoryI);
     }
@@ -103,20 +151,26 @@ export default class Events extends Component {
     }
   }
   onClose = () => this.setState({ modalVisible: false });
-  book(eventid) {
-    this.setState({id: eventid})
-    if(window.localStorage.getItem('token') === null){
+  book(eventid, eventPrice) {
+    this.setState({ id: eventid, color: "white" });
+    if (window.localStorage.getItem("token") === null) {
       Swal.fire({
-        position: 'top-end',
-        icon: 'info',
-        title: 'please signin or create an account',
+        position: "top-end",
+        icon: "info",
+        title: "please signin or create an account",
         showConfirmButton: false,
         timer: 1500,
       });
-    }else{
-     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
-   }
- 
+    } else {
+      this.setState({
+        toggle: !this.state.toggle,
+        show: !this.state.show,
+        price: eventPrice,
+      });
+    }
+    setTimeout(() => {
+      this.setState({ color: "green" });
+    }, 1000);
   }
   hideModal() {
     this.setState({ toggle: !this.state.toggle, show: !this.state.show });
@@ -127,48 +181,180 @@ export default class Events extends Component {
   hideModal3() {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
   }
+  search() {
+    this.setState({ view: !this.state.view });
+  }
+  searchDone() {
+    let filt = [];
+    if (this.state.word.length > 0) {
+      filt = this.state.filterevents.filter((event) => {
+        return (
+          event.homeTeam === this.state.word ||
+          event.awayTeam === this.state.word
+        );
+      });
+      this.setState({ view: !this.state.view, filterevents: filt });
+    } else if (this.state.word === "all" || this.state.word.length === 0) {
+      this.setState({
+        view: !this.state.view,
+        filterevents: this.state.storedEvents,
+      });
+    }
+  }
+  filter(e) {
+    this.setState({ word: e.target.value });
+  }
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
-      <View key={key} className="eventDiv"  style={{height: 270, marginTop: 5}}>
-          <Card.Image source={{ uri: event.image }} style={{height: 200}}/>
-          <Text style={{textAlign: 'center', fontSize:18, position: 'relative', left: -61, top:10}}>
-            {event.homeTeam} vs {event.awayTeam}
-            
-          </Text>
-          <Text style={{textAlign: 'center', fontSize:10, position: "relative", left: -70, top: 10, color: 'grey'}}>{event.date} •</Text>
-          <Text style={{textAlign: 'center', fontSize:15, marginLeft: 250,position: "relative", top: -20, left:20, shadowRadius:1, width:70, borderRadius:10, borderWidth:1}}>{event.price} DT</Text>
-          <Text
-            onPress={()=>{this.book(event.id)}}
+      <View
+        key={key}
+        className="eventDiv"
+        style={{ height: 270, marginTop: 5, top: 30 }}
+      >
+        <Card.Image source={{ uri: event.image }} style={{ height: 200 }} />
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 18,
+            position: "relative",
+            left: -20,
+            top: 10,
+            textTransform: "uppercase",
+          }}
+        >
+          {event.homeTeam} vs {event.awayTeam}
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 15,
+            position: "relative",
+            left: -20,
+            top: 10,
+            color: "grey",
+            fontFamily: "Trebuchet MS ,sans-serif",
+          }}
+        >
+          {event.date}
+          <Fontisto style={{ color: "black", marginLeft: 5 }} name="date" />
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 15,
+            marginLeft: 250,
+            position: "relative",
+            top: -20,
+            left: 20,
+            shadowRadius: 1,
+            width: 80,
+            borderRadius: 10,
+            borderWidth: 1,
+            backgroundColor: "#164D09",
+            color: "white",
+            fontFamily: "Trebuchet MS ,sans-serif",
+          }}
+        >
+          {event.price} TND
+          <FontAwesome5
             style={{
-              borderRadius: 0,
-              marginLeft: 10,
-              marginRight: 0,
-              marginBottom: 30,
-              shadowRadius: 1,
-              borderWidth: 1,
-              borderColor: 'green',
-              width: 70,
-              height:30,
-              top: -30,
-              zIndex: 10,
-              textAlign: 'center',
-              position: 'relative',
-              top: -40
-            }}>
-            Book
-            </Text>
-          
+              marginLeft: 5,
+              color: "white",
+            }}
+            name={"coins"}
+            solid
+          />
+        </Text>
+        <Text
+          onPress={() => {
+            this.book(event.id, event.price);
+          }}
+          style={{
+            fontSize: 15,
+            borderRadius: 10,
+            marginLeft: 10,
+            marginRight: 0,
+            marginBottom: 30,
+            shadowRadius: 1,
+            borderWidth: 1,
+            borderColor: this.state.color,
+            width: 80,
+            // height: 30,
+            top: -30,
+            zIndex: 10,
+            textAlign: "center",
+            position: "relative",
+            top: -40,
+            backgroundColor: "#164D09",
+            color: "white",
+            fontFamily: "Trebuchet MS ,sans-serif",
+          }}
+        >
+          BOOK
+        </Text>
       </View>
     ));
 
     return (
       <View>
-        {this.state.toggle && (
-          <View> 
-            <Card.Image source={{ uri: ads }} style={{height: 100, marginTop: 5, width: "100%"}}/>
-            {eventsD}
-           </View> 
+        {!this.state.view && (
+          <MaterialIcons
+            name="search"
+            size={30}
+            color="black"
+            style={{ position: "relative", left: 340, width: "100%" }}
+            onPress={this.search}
+          />
         )}
+        {!this.state.view && (
+          <MaterialIcons
+            name="autorenew"
+            size={30}
+            color="black"
+            style={{
+              position: "relative",
+              left: 380,
+              width: "100%",
+              bottom: 30,
+              height: "50",
+            }}
+            onPress={this.refrech}
+          />
+        )}
+        {this.state.view && (
+          <View style={{ height: 40 }}>
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={this.filter}
+              style={{ height: 300, width: 320, position: "relative", top: 7 }}
+            />
+            <MaterialIcons
+              onPress={this.searchDone}
+              name="youtube-searched-for"
+              size={30}
+              color="black"
+              style={{ position: "relative", left: 340, top: -21, height: 30 }}
+            />
+          </View>
+        )}
+       
+{<Carousel>
+        {items.map(item => <Image
+         source={{uri:item.src}}
+         style={{ height: 150,  width: "200%" }}
+        />)}
+      </Carousel>}
+        {this.state.toggle && (
+          <View>
+            <Card.Image
+              source={{ uri: "https://media.tenor.com/images/6d4698fe62f7e064bfef2e9083274606/tenor.gif" }}
+              style={{ height: 170, marginTop: 5, width: "100%" }}
+            />
+            {eventsD}
+          </View>
+        )}
+
         {!this.state.toggle && !this.state.show && (
           <Overlay
             visible={this.state.modalVisible}
@@ -183,13 +369,44 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
-              borderColor: 'green'
+              borderColor: "green",
             }}
           >
             <Fragment>
-              <Text onPress={()=>{this.onGradin('gradin')}} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Gradin</Text>
-              <Text onPress={this.onPelouse} style={{width: 80, borderWidth:1, borderColor: 'green', marginBottom:2, textAlign: 'center', fontSize: 18, borderRadius: 5}}>Pelouse</Text>
-              <Text onPress={this.hideModal} style={{position:'relative', left: 135, top: -75}}>X</Text>
+              <Text
+                onPress={this.onGradin}
+                style={{
+                  width: 80,
+                  borderWidth: 1,
+                  borderColor: "green",
+                  marginBottom: 2,
+                  textAlign: "center",
+                  fontSize: 18,
+                  borderRadius: 5,
+                }}
+              >
+                Gradin
+              </Text>
+              <Text
+                onPress={this.onPelouse}
+                style={{
+                  width: 80,
+                  borderWidth: 1,
+                  borderColor: "green",
+                  marginBottom: 2,
+                  textAlign: "center",
+                  fontSize: 18,
+                  borderRadius: 5,
+                }}
+              >
+                Pelouse
+              </Text>
+              <Text
+                onPress={this.hideModal}
+                style={{ position: "relative", left: 135, top: -75 }}
+              >
+                X
+              </Text>
             </Fragment>
           </Overlay>
         )}
@@ -207,7 +424,7 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
-              borderColor: 'green'
+              borderColor: "green",
             }}
           >
             <Fragment>
@@ -230,25 +447,87 @@ export default class Events extends Component {
               height: "50vh",
               marginLeft: "5%",
               top: "20vh",
-              borderColor: 'green'
+              borderColor: "green",
             }}
           >
             <Fragment>
-              <Seats event={this.state.id} side={this.state.side} grad={this.state.grad} />
+              <Seats
+                event={this.state.id}
+                side={this.state.side}
+                grad={this.state.grad}
+                price={this.state.price}
+              />
               <Text onPress={this.hideModal3}>Go back</Text>
             </Fragment>
           </Overlay>
         )}
+        {!this.state.toggle && (
+          <View
+            style={{
+              position: "relative",
+              top: -438,
+              width: "70vw",
+              left: "50%",
+              transform: "translate(-50%)",
+              zIndex: 100,
+              width: "100vw",
+              backgroundColor: "#f2f2f2",
+              height: "10vh",
+              paddingTop: "5vh",
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                width: "80vw",
+                position: "relative",
+                left: "50%",
+                transform: "translate(-50%)",
+                fontSize: 15,
+                borderWidth: 1,
+                borderColor: "black",
+                padding: 10,
+              }}
+            >
+              Please pick carefully your seat number and it's category, once the
+              operation is done there will be no{" "}
+              <Text
+                style={{ borderBottomWidth: 2, borderBottomColor: "green" }}
+              >
+                retrieve
+              </Text>{" "}
+              .
+            </Text>
+            <Text
+              style={{
+                width: "80vw",
+                position: "relative",
+                left: "50%",
+                transform: "translate(-50%)",
+                fontSize: 15,
+                position: "relative",
+                top: 530,
+                textAlign: "center",
+              }}
+            >
+              Pelouse seats have extra fee of 10 dt
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
-  picker: {top:10,alignItems: 'left', justifyContent: "space-around"},
-  item: { textAlign: "center"},
-  card: {backgroundColor: "white", shadowRadius: 10, borderRadius:10, width: "80%", alignContent: "center", left: '7%'}
+  picker: { top: 10, alignItems: "left", justifyContent: "space-around" },
+  item: { textAlign: "center" },
+  card: {
+    backgroundColor: "white",
+    shadowRadius: 10,
+    borderRadius: 10,
+    width: "80%",
+    alignContent: "center",
+    left: "7%",
+  },
 });
-
-
-

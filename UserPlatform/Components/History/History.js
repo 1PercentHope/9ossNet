@@ -8,21 +8,14 @@ export default class History extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            history: [
-                { id: 1, price: '17 DT', date: '21/04/2020' },
-                { id: 2, price: '100 DT', date: '15/04/2020' },
-                { id: 3, price: '10 DT', date: '07/04/2020' }
-            ]
+            history: []
         }
 
     }
     componentDidMount() {
-        console.log('starting history')
         const data = store.getState()
-        axios
-            .post("http://localhost:5000/purchase/history", {numberPhone: data.auth.phone})
+        axios.post("http://localhost:5000/purchase/history", {numberPhone: data.auth.phone})
             .then((res) => {
-                console.log(res.data)
                 this.setState({ history: res.data });
             })
             .catch((err) => {
