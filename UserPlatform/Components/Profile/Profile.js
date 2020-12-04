@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { ListItem, Avatar, Accessory } from "react-native-elements";
+import { ListItem, Avatar, Accessory,Header } from "react-native-elements";
 import History from "../History/History";
 import Axios from "axios";
 import store from "../../store.js";
@@ -94,7 +94,30 @@ export default class Profile extends Component {
     return (
       <View>
         <View>
-          <View style={{height: '7vh'}}>
+        <Header
+          backgroundImage={require("../../assets/header.jpg")}
+          containerStyle={{ height: 60 }}
+          leftComponent={
+            <Avatar
+            onPress={() => {
+              this.showProfile(), this.props.toggle();
+            }}
+            size="medium"
+            rounded
+            source={{
+              uri: this.state.user.img
+            }}>
+            <Accessory style={{ height: 15, width: 15 }} onPress={() => { this.updateProfile(), this.props.appenUpdate() }} />
+          </Avatar>    
+          }     
+          rightComponent={
+            <AntDesign name="lock" size={30} color="white" onPress={() => {this.loggingOut()}}
+           
+            />
+          }
+        ></Header>
+          {/* <View style={{height: '7vh'}}>
+
           <Avatar
             onPress={() => {
               this.showProfile(), this.props.toggle();
@@ -109,7 +132,7 @@ export default class Profile extends Component {
           <AntDesign name="lock" size={30} color="black" onPress={() => {this.loggingOut()}}
           style={{position: 'relative', left:340, top:-35, height:'100%'}}
           />
-          </View>
+          </View> */}
           <View style={{ backgroundColor: 'grey', height: 1, width: '100%', opacity: 0.3 }}></View>
           {this.state.hist && this.state.slide && !this.state.showUpdate && (
             <View>
