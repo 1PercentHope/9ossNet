@@ -46,7 +46,7 @@ export default class Purchase extends Component {
   render() {
     return (
       <View>
-         <Card.Image source={{ uri: paypal }} style={{ height: 70, width: 70 ,zIndex: 100,marginLeft: 110}} />
+         <Card.Image source={{ uri: paypal }} style={{ height: 55, width: 70 ,zIndex: 100,marginLeft: 110}} />
         <Card>
           <Input
             placeholder="Email"
