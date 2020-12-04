@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  
 } from "react-native";
 import { Button, Card, ListItem, Icon } from "react-native-elements";
 import Overlay from "react-native-modal-overlay";
@@ -28,7 +29,10 @@ const items =  [
   {id: 3, src:"https://images.unsplash.com/photo-1570498839593-e565b39455fc?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
   {id:4,src:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Nnx8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
   {id :5,src:"https://images.unsplash.com/photo-1459865264687-595d652de67e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8N3x8c29jY2VyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"},
-  {id:6,src:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHNvY2NlcnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500"}
+  {id:6,src:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHNvY2NlcnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500"},
+  {id:7,src:ads},
+  {id:8,src:"https://media.giphy.com/media/w8pHrgmuBMh4Q/giphy.gif"},
+  {id:9,src:"https://t.resfu.com/media/img_news/creatividad-alusiva-al-fallecimiento-de-diego-armando-maradona--besoccer.png"}
 
 ]
 
@@ -49,7 +53,7 @@ export default class Events extends Component {
       intro: [],
       current: "",
       upload: true,
-      view: false,
+      view: true,
       word: "",
       storedEvents: [],
       price: "",
@@ -65,7 +69,7 @@ export default class Events extends Component {
     this.hideModal = this.hideModal.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
     this.hideModal3 = this.hideModal3.bind(this);
-    this.search = this.search.bind(this);
+    // this.search = this.search.bind(this);
     this.searchDone = this.searchDone.bind(this);
     this.filter = this.filter.bind(this);
     this.refrech = this.refrech.bind(this);
@@ -181,9 +185,9 @@ export default class Events extends Component {
   hideModal3() {
     this.setState({ pelouse: !this.state.pelouse, show: !this.state.show });
   }
-  search() {
-    this.setState({ view: !this.state.view });
-  }
+  // search() {
+  //   this.setState({ view: !this.state.view });
+  // }
   searchDone() {
     let filt = [];
     if (this.state.word.length > 0) {
@@ -206,23 +210,54 @@ export default class Events extends Component {
   }
   render() {
     const eventsD = this.state.filterevents.map((event, key) => (
+      <View>
       <View
         key={key}
         className="eventDiv"
-        style={{ height: 270, marginTop: 5, top: 30 }}
+        style={{ height: 270, marginTop: 5, top: 30 ,borderStyle: "solid",borderColor:'#003300',borderWidth: 2,borderRadius: 5}}
       >
         <Card.Image source={{ uri: event.image }} style={{ height: 200 }} />
         <Text
           style={{
             textAlign: "center",
-            fontSize: 18,
+            fontSize: 19,
             position: "relative",
             left: -20,
             top: 10,
             textTransform: "uppercase",
+            fontFamily: "Trebuchet MS ,sans-serif",
+            
           }}
         >
-          {event.homeTeam} vs {event.awayTeam}
+          {event.homeTeam} <Text
+          style={{
+            
+            fontSize: 17,
+            
+       
+            color:'red',
+            textTransform: "upeercase",
+            fontFamily: "New Century Schoolbook, TeX Gyre Schola, serif",
+            
+          }}
+          > vs  </Text> 
+          {event.awayTeam}
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 15,
+            position: "relative",
+            left: -20,
+            top: 10,
+            textTransform: "uppercase",
+            fontFamily: "Trebuchet MS ,sans-serif",
+            color:'balck'
+
+          }}
+        >
+          {event.place}
+          
         </Text>
         <Text
           style={{
@@ -238,6 +273,7 @@ export default class Events extends Component {
           {event.date}
           <Fontisto style={{ color: "black", marginLeft: 5 }} name="date" />
         </Text>
+        
         <Text
           style={{
             textAlign: "center",
@@ -292,68 +328,63 @@ export default class Events extends Component {
         >
           BOOK
         </Text>
-      </View>
+      </View><br/></View>
     ));
 
     return (
       <View>
-        {!this.state.view && (
-          <MaterialIcons
-            name="search"
-            size={30}
-            color="black"
-            style={{ position: "relative", left: 340, width: "100%" }}
-            onPress={this.search}
-          />
-        )}
-        {!this.state.view && (
+        <View style={{maxheight:60}}>
           <MaterialIcons
             name="autorenew"
             size={30}
             color="black"
             style={{
               position: "relative",
-              left: 380,
               width: "100%",
-              bottom: 30,
-              height: "50",
+              
+              left: 324,
+              bottom: 0,
+              
             }}
             onPress={this.refrech}
           />
-        )}
-        {this.state.view && (
-          <View style={{ height: 40 }}>
+          <View style={{ height: 10 }}>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search..."
               onChange={this.filter}
-              style={{ height: 300, width: 320, position: "relative", top: 7 }}
+              style={{ height: 300, width: 320, position: "relative", top: -25 }}
             />
             <MaterialIcons
               onPress={this.searchDone}
-              name="youtube-searched-for"
+              name="search"
               size={30}
               color="black"
-              style={{ position: "relative", left: 340, top: -21, height: 30 }}
+              style={{ position: "relative", left: 350, top: -53, height: 30 }}
             />
           </View>
-        )}
+        </View>
        
-{<Carousel>
+{<Carousel showArrows = {false} pagination={false} enableAutoPlay={true} autoPlaySpeed={2100}
+ elementStyle={{width: '100vw',}}
+
+>
         {items.map(item => <Image
          source={{uri:item.src}}
-         style={{ height: 150,  width: "200%" }}
+         style={{ height: 170, marginTop: 5, width: "100vw" ,borderStyle: "solid",borderRadius: 10,borderColor:'#003300',borderWidth: 3}}
         />)}
       </Carousel>}
-        {this.state.toggle && (
+        {this.state.toggle && 
+        (
           <View>
-            <Card.Image
+            {/* <Card.Image
               source={{ uri: "https://media.tenor.com/images/6d4698fe62f7e064bfef2e9083274606/tenor.gif" }}
               style={{ height: 170, marginTop: 5, width: "100%" }}
-            />
+            /> */}
             {eventsD}
           </View>
-        )}
+        )
+        }
 
         {!this.state.toggle && !this.state.show && (
           <Overlay
@@ -465,14 +496,13 @@ export default class Events extends Component {
           <View
             style={{
               position: "relative",
-              top: -438,
+              top: -350,
               width: "70vw",
               left: "50%",
               transform: "translate(-50%)",
               zIndex: 100,
               width: "100vw",
               backgroundColor: "#f2f2f2",
-              height: "10vh",
               paddingTop: "5vh",
             }}
           >
@@ -487,6 +517,7 @@ export default class Events extends Component {
                 borderWidth: 1,
                 borderColor: "black",
                 padding: 10,
+                
               }}
             >
               Please pick carefully your seat number and it's category, once the
@@ -498,7 +529,7 @@ export default class Events extends Component {
               </Text>{" "}
               .
             </Text>
-            <Text
+            {/* <Text
               style={{
                 width: "80vw",
                 position: "relative",
@@ -511,7 +542,7 @@ export default class Events extends Component {
               }}
             >
               Pelouse seats have extra fee of 10 dt
-            </Text>
+            </Text> */}
           </View>
         )}
       </View>

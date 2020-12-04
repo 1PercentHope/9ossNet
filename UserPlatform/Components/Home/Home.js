@@ -60,5 +60,5 @@ export default class Home extends Component {
         <Events word={this.state.word}/>
       </View>
     );
-  }
-}
+  };
+};
